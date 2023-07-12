@@ -11,3 +11,6 @@
 
 ## 추가 서비스 모듈 개발시 사용자 인증을 통한 Backend Aria Automation 토큰 확인 방법
 
+**샘플 코드 로직은 opera/src/services/api/views.py 의 checkApi 메소드 확인**
+
+<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_auth_3.png?raw=true" width="50%"></p>
