@@ -1,4 +1,3 @@
-a
 // Global Variables
 var currUser = null;
 var currEndpoint = null;
@@ -14,9 +13,11 @@ function getAuthApi(url, func) {
 		type: "get",
 		url: "/auth" + url,
 		success: function (data) {
+			console.log(data);
 			func(data);
 		},
 		error: function(xhr, status, thrown) {
+			console.log("un-authorized");
 			window.location.replace('/auth/login');
 		}
 	});
@@ -30,6 +31,7 @@ function getApi(url, func) {
 			"CMP-REGION-ENDPOINT": currEndpoint
 		},
 		success: function (data) {
+			console.log(data);
 			func(data);
 		},
 		error: function(xhr, status, thrown) {
@@ -104,12 +106,10 @@ function setProjects(projectId) {
 }
 
 function showDeployments() {
-	console.log(currProjectId);
 	getApi('/deployment/api/deployments?expand=resources&projects=' + currProjectId,
 	function (data) {
 		var deployments = data.content;
 		var html = "";
-		console.log(deployments);
 		deployments.forEach(function (deployment) {
 			html += '<div class="card opera-content-item">';
 			html += '<div class="card-header">' + deployment.name + '</div>';
@@ -154,7 +154,6 @@ function showDeployments() {
 function getUserDetail() {
 	getAuthApi("/user",
 	function (data) {
-		console.log(data);
 		if (data.displayName !== undefined && data.displayName != null && data.displayName != "") {
 			$("#opera-user").html(data.displayName);
 		} else {
