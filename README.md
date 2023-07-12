@@ -12,18 +12,18 @@ git clone https://github.com/vmware-cmbu-seak/opera.git
 
 # 초기 설정 (한번만)
 apt install -y docker.io
-docker network create vmkcmp
-docker build --no-cache -t vmkcmp/fastapi:latest -f fastapi.docker .
+docker network create opera
+docker build --no-cache -t opera/fastapi:latest -f fastapi.docker .
 
 # 컨테이너 빌드
-docker build --no-cache -t vmkcmp/nginx:latest ./services/nginx
-docker build --no-cache -t vmkcmp/redis:latest ./services/redis
-docker build --no-cache -t vmkcmp/auth:latest -f ./services/auth/Dockerfile .
-docker build --no-cache -t vmkcmp/api:latest -f ./services/api/Dockerfile .
+docker build --no-cache -t opera/redis:latest ./services/redis
+docker build --no-cache -t opera/auth:latest -f ./services/auth/Dockerfile .
+docker build --no-cache -t opera/api:latest -f ./services/api/Dockerfile .
+docker build --no-cache -t opera/nginx:latest ./services/nginx
 
 # 컨테이너 실행
-docker run --name redis --network vmkcmp -d vmkcmp/redis:latest
-docker run --name auth --network vmkcmp -d vmkcmp/auth:latest
-docker run --name api --network vmkcmp -d vmkcmp/api:latest
-docker run --name nginx --network vmkcmp -p 443:443 -d vmkcmp/nginx:latest
+docker run --name redis --network opera -d opera/redis:latest
+docker run --name auth --network opera -d opera/auth:latest
+docker run --name api --network opera -d opera/api:latest
+docker run --name nginx --network opera -p 443:443 -d opera/nginx:latest
 ```
