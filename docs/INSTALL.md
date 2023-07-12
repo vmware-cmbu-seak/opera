@@ -35,8 +35,8 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 -> 설정 메�
 
 포탈의 FQDN을 반영한 Cert 파일을 아래의 경로에 있는 파일 이름으로 복사해 놓습니다.
 
- - /src/services/nginx/webcert/cert.crt
- - /src/services/nginx/webcert/cert.key
+ - opera/src/services/nginx/webcert/cert.crt
+ - opera/src/services/nginx/webcert/cert.key
 
 ### 6) opera.conf 설정
 
