@@ -30,26 +30,26 @@ api = API(config)
 #===============================================================================
 # Interfaces
 #===============================================================================
-@app.get('/{automationUrl:path}')
-async def get_api(request:Request, automationUrl:str):
-    return await api.getApi(request, automationUrl)
+@app.get('/{automationApiPath:path}')
+async def get_api(request:Request, automationApiPath:str):
+    return await api.getApi(request, automationApiPath)
 
 
-@app.post('/{automationUrl:path}')
-async def post_api(request:Request, automationUrl:str):
-    return await api.postApi(request, automationUrl)
+@app.post('/{automationApiPath:path}')
+async def post_api(request:Request, automationApiPath:str):
+    return await api.postApi(request, automationApiPath)
 
 
-@app.put('/{automationUrl:path}')
-async def put_api(request:Request, automationUrl:str):
-    return await api.putApi(request, automationUrl)
+@app.put('/{automationApiPath:path}')
+async def put_api(request:Request, automationApiPath:str):
+    return await api.putApi(request, automationApiPath)
 
 
-@app.patch('/{automationUrl:path}')
-async def patch_api(request:Request, automationUrl:str):
-    return await api.patchApi(request, automationUrl)
+@app.patch('/{automationApiPath:path}')
+async def patch_api(request:Request, automationApiPath:str):
+    return await api.patchApi(request, automationApiPath)
 
 
-@app.delete('/{automationUrl:path}')
-async def delete_api(request:Request, automationUrl:str):
-    return await api.deleteApi(request, automationUrl)
+@app.delete('/{automationApiPath:path}')
+async def delete_api(request:Request, automationApiPath:str):
+    return await api.deleteApi(request, automationApiPath)
