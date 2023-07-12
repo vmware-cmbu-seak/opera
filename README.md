@@ -9,13 +9,13 @@ On-prem Portal for Extended Reference of Aria.
 
 VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 -> 설정 메뉴로 이동합니다.
 
-<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_1.png?raw=true" width="30%"></p>
+<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_1.png?raw=true" width="50%"></p>
 
 #### 2) 클라이언트 생성
 
 원격 어플리케이션 액스 메뉴에서 클라이언트 생성 버튼을 누릅니다.
 
-<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_2.png?raw=true" width="30%"></p>
+<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_2.png?raw=true" width="50%"></p>
 
 #### 3) 클라이언트 설정 입력
 
@@ -26,13 +26,13 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 -> 설정 메�
  
  추가 버튼을 눌러 클라이언트를 생성 합니다.
 
-<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_3.png?raw=true" width="30%"></p>
+<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_3.png?raw=true" width="50%"></p>
 
 #### 4) 클라이언트 설정 복사
 
 생성 결과에서 **공유 암호**를 복사해 놓습니다.
 
-<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_4.png?raw=true" width="30%"></p>
+<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_4.png?raw=true" width="50%"></p>
 
 #### 5) Cert 파일 복사
 
@@ -50,7 +50,7 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 -> 설정 메�
  - vidm > client_id : VIDM에 설정한 클라이언트 ID 값과 일치하는지 확인합니다
  - vidm > client_key : VIDM에서 생성된 공유 암호를 입력합니다
 
-<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_5.png?raw=true" width="30%"></p>
+<p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_5.png?raw=true" width="50%"></p>
 
 #### 7) Docker 환경 기반으로 실행할 경우
 
