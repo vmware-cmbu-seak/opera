@@ -49,7 +49,7 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 -> 설정 메�
 
 <p align="center"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera_5.png?raw=true" width="50%"></p>
 
-### 7) Docker 환경 기반으로 실행할 경우
+### 7) Docker 환경 설정
 
 Docker를 설치합니다.
 
@@ -113,8 +113,8 @@ $ docker run --name api --network opera -p 8082:8082 -d opera/api:latest
 
 이후 Swagger는 다음 URL을 통해 확인 가능합니다
 
- - Auth Swagger = https://{{portalAddress}}:8081/docs
- - API Swagger = https://{{portalAddress}}:8082/docs
+ - Auth Swagger = http://{{portalAddress}}:8081/docs
+ - API Swagger = http://{{portalAddress}}:8082/docs
 
 ### 2) Frontend 서비스 모듈 실행
 
