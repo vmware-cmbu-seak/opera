@@ -1,0 +1,6 @@
+FROM python:latest
+RUN pip install --no-cache-dir requests fastapi uvicorn aiohttp asyncio redis 
+RUN mkdir -p /service
+WORKDIR /service
+ENV SERVICE_MODULE=""
+CMD python -u server.py -m "$SERVICE_MODULE"

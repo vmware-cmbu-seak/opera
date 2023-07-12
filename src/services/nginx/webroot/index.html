@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="VMKCMP TF Team">
+    
+    <title>Opera</title>
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="144x144" href="/static/img/favicons/android-icon-144x144.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/static/img/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link href="/static/package/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/package/bootstrap/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/package/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/static/package/fontawesome/css/brands.css" rel="stylesheet">
+    <link href="/static/package/fontawesome/css/solid.css" rel="stylesheet">
+    <link href="/static/css/opera.css" rel="stylesheet">
+    
+  </head>
+  <body>
+  
+    <script src="/static/js/jquery-3.6.4.min.js"></script>
+    <script src="/static/js/jquery-cookie.js"></script>
+    <script src="/static/package/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/opera.js"></script>
+
+<!-- CODE START -->
+
+<!-- nav -->
+<nav id="opera-nav" class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <!-- branding -->
+    <a class="navbar-brand" href="/"><img src="/static/img/cloud.png" alt="Logo" height="27" class="d-inline-block align-text-top ms-3"><span class="ms-3">Opera</span></a>
+    
+    <!-- mobile toggle button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#opera-navbar" aria-controls="opera-navbar" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- nav menu -->
+    <div id="opera-navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+        <!-- select region -->
+        <li class="nav-item dropdown me-2">
+          <button class="btn btn-white dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="ps-2"><i class="bi bi-layers-fill"></i> <span id="opera-curr-region"></span></span>
+          </button>
+          <ul id="opera-regions" class="dropdown-menu"></ul>
+        </li>
+        
+        <!-- select project -->
+        <li class="nav-item dropdown me-2">
+          <button class="btn btn-white dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="ps-2"><i class="bi bi-folder-fill"></i> <span id="opera-curr-project"></span></span>
+          </button>
+          <ul id="opera-projects" class="dropdown-menu"></ul>
+        </li>
+        
+      </ul>
+      
+      <!-- search box -->
+      <div class="navbar-nav me-4 mb-2 mb-lg-0">
+        <form class="d-flex" role="search">
+          <div class="input-group">
+            <input class="form-control" type="search" placeholder="Search">
+            <button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- user control -->
+      <div class="dropdown me-2">
+        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="ps-2"><i class="bi bi-person-circle"></i> <span id="opera-user"></span></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item">User Info</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/auth/logout">Sign Out</a></li>
+        </ul>
+      </div>
+      
+      <!-- info control -->
+      <button class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#opera-noti" aria-controls="opera-noti"><i class="bi bi-grid"></i></button>
+      
+    </div>
+  </div>
+</nav>
+
+<!-- main -->
+<main class="d-flex flex-nowrap">
+
+  <!-- sidebar -->
+  <div id="opera-menu" class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+  
+    <!-- overview -->
+    <div class="nav nav-link link-dark">
+      <span class="fs-5"><i class="bi bi-speedometer"></i> Overview</span>
+    </div>
+    <div class="card opera-ov">
+      <div class="card-body">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="col text-center fs-4"><i class="bi bi-box"></i> <span>12</span><small> VM</small></div>
+          </div>
+          <hr>
+          <div class="d-flex">
+            <div class="col text-center fs-6"><i class="bi bi-cpu"></i><div><span>25</span><small>CPU</small></div></div>
+            <div class="col opera-col-spliter text-center fs-6"><i class="bi bi-memory"></i><div><span>745</span><small>GB</small></div></div>
+            <div class="col opera-col-spliter text-center fs-6"><i class="bi bi-database"></i><div><span>2287</span><small>GB</small></div></div>
+          </div>
+          <hr>
+          <div class="d-flex">
+            <div class="col text-center fs-4"><small>\ </small><span>37,024</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    
+    <!-- menu -->
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item"><a class="nav-link fs-5"><i class="bi bi-bullseye"></i> Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link link-dark fs-5"><i class="bi bi-box-fill"></i> Service</a></li>
+      <li class="nav-item">
+        <ul class="nav nav-pills flex-column mb-auto ms-4">
+          <li><a class="nav-link fs-6"><i class="bi bi-bookmark"></i> Computing</a></li>
+          <li><a class="nav-link fs-6 active"><i class="bi bi-bookmark-check"></i> Virtual Network</a></li>
+          <li><a class="nav-link fs-6"><i class="bi bi-bookmark"></i> Environment</a></li>
+          <li><a class="nav-link fs-6"><i class="bi bi-bookmark"></i> Platform</a></li>
+          <li><a class="nav-link fs-6"><i class="bi bi-bookmark"></i> Application</a></li>
+        </ul>
+      </li>
+    </ul>
+    <hr>
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item"><a class="nav-link link-dark fs-5"><i class="bi bi-person-gear"></i> Administration</a></li>
+      <li class="nav-item">
+        <ul class="nav nav-pills flex-column mb-auto ms-4">
+          <li><a class="nav-link fs-6"><i class="bi bi-tools"></i> Management</a></li>
+          <li><a class="nav-link fs-6"><i class="bi bi-gear-wide-connected"></i> Setting</a></li>
+        </ul>
+      </li>
+    </ul>
+    <hr>
+    <a class="nav nav-link">
+      <span class="fs-5"><i class="bi bi-info-circle"></i> Information</span>
+    </a>
+  </div>
+  
+  <!-- content -->
+  <div id="opera-content-frame" class="pt-3">
+    
+    <!--  content modal -->
+    <div id="opera-content-modal" class="modal fade" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- content head -->
+    <div id="opera-content-head" class="container">
+    
+      <!-- dashboard toggle -->
+      <div class="d-flex justify-content-between">
+        <span class="fs-1">Deployments</span>
+        <div class="btn-group opera-dashboard-toggle" role="group">
+          <button type="button" class="btn btn-outline-secondary active">Deployment</button>
+          <button type="button" class="btn btn-outline-secondary">Network</button>
+          <button type="button" class="btn btn-outline-secondary">Resource</button>
+        </div>
+      </div>
+      <hr>
+    
+    </div>
+    
+    <!-- content body -->
+    <div id="opera-content-body" class="container"></div>
+  </div>
+  
+  <!-- noti -->
+  <div id="opera-noti" class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Notification</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+    
+      <!-- alert -->
+      <div class="container-fluid">
+        <p class="text-black text-decoration-none fs-5"><i class="bi bi-bell"></i> Alert</p>
+        <div id="opera-alert" class="d-flex flex-column">
+          <button type="button" class="opera-noti-item text-start btn btn-outline-danger"><i class="bi bi-exclamation-triangle-fill"></i> Danger Alert</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-warning"><i class="bi bi-exclamation-circle"></i> Warning Alert</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-info"><i class="bi bi-info-circle"></i> Info Alert 1</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-info"><i class="bi bi-info-circle"></i> Info Alert 2</button>
+        </div>
+      </div><hr>
+      
+      <!-- approve if admin -->
+      <div class="container-fluid overflow-y-auto">
+        <p class="text-black text-decoration-none fs-5"><i class="bi bi-ticket-detailed"></i> Approval</p>
+        <div id="opera-approval" class="d-flex flex-column">
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-question-circle"></i> Request 1</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-question-circle"></i> Request 2</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-question-circle"></i> Request 3</button>
+        </div>
+      </div><hr>
+      
+      <!-- helpdesk -->
+      <div class="container-fluid">
+        <p class="text-black text-decoration-none fs-5"><i class="bi bi-ticket-detailed"></i> Help Desk</p>
+        <div id="opera-talk" class="d-flex flex-column">
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-chat-text"></i> Talk 1</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-chat-text"></i> Talk 2</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-chat-text"></i> Talk 3</button>
+        </div>
+      </div><hr>
+      
+      <!-- event -->
+      <div id="opera-event-frame" class="container-fluid">
+        <p class="text-black text-decoration-none fs-5"><i class="bi bi-lightning"></i> Event</p>
+        <div id="opera-event" class="d-flex flex-column">
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 1</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 2</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-success"><i class="bi bi-patch-check"></i> Success Event 3</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 4</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-danger"><i class="bi bi-patch-exclamation"></i> Failed Event 5</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 6</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 7</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 8</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 9</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 10</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 11</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 12</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 13</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 14</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 15</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 16</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 17</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 18</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 19</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 20</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 21</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 22</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 23</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 24</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 25</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 26</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 27</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 28</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 29</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 30</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 31</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 32</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 33</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 34</button>
+          <button type="button" class="opera-noti-item text-start btn btn-outline-secondary"><i class="bi bi-patch-plus"></i> Event 35</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</main>
+
+<!-- CODE FINISH -->
+
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>

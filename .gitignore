@@ -161,3 +161,5 @@ cython_debug/
 /.project
 /.pydevproject
 .settings
+/src/services/nginx/webcert/cert.crt
+/src/services/nginx/webcert/cert.key
