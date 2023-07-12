@@ -8,7 +8,7 @@ Ubuntu Root 권한 기준 실행 방법
 # Git 클론
 git clone https://github.com/vmware-cmbu-seak/opera.git
 
-# 이후 모든 작업은 aria-portal/src 디렉토리에서 수행
+# 이후 모든 작업은 opera/src 디렉토리에서 수행
 
 # 초기 설정 (한번만)
 apt install -y docker.io
