@@ -96,13 +96,13 @@ $ docker build --no-cache -t opera/nginx:latest ./services/nginx
 
 ### 1) Backend 서비스 모듈 실행
 
-#### Redis 캐시 서비스 모듈
+#### 1.1) Redis 캐시 서비스 모듈
 
 ```
 $ docker run --name redis --network opera -d opera/redis:latest
 ```
 
-#### Auth & API 서비스 모듈
+#### 1.2) Auth & API 서비스 모듈
 
 기본 실행 환경이라면 다음과 같이 실행합니다.
 
