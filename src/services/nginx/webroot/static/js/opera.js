@@ -163,15 +163,9 @@ function getUserDetail() {
 };
 
 function checkUser() {
-	var cmpSessionId = $.cookie('CMP_SESSION_ID');
-	var cmpAccessToken = $.cookie('CMP_ACCESS_TOKEN');
-	if (cmpSessionId !== undefined && cmpSessionId != "" && cmpAccessToken !== undefined && cmpAccessToken != "") {
-		getAuthApi('/check', function(data) {
-			currUser = data;
-			getUserDetail();
-			setRegionEndpoint();
-		});
-	} else {
-		window.location.replace('/auth/login');
-	}
+	getAuthApi('/check', function(data) {
+		currUser = data;
+		getUserDetail();
+		setRegionEndpoint();
+	});
 };
