@@ -1,7 +1,6 @@
 # Opera
 On-prem Portal for Extended Reference of Aria.
 
-
 Ubuntu Root 권한 기준 실행 방법
 
 ```
