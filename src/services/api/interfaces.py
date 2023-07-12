@@ -22,7 +22,7 @@ from views import API
 # SingleTone
 #===============================================================================
 config = getConfig('opera.conf')
-app = FastAPI(title='Auth Module')
+app = FastAPI(title='Api Module')
 Logger.register(config)
 api = API(config)
 
@@ -30,26 +30,26 @@ api = API(config)
 #===============================================================================
 # Interfaces
 #===============================================================================
-@app.get('/{path:path}', tags=['API'])
-async def get_api(request:Request, path:str):
-    return await api.getApi(request, path)
+@app.get('/{automationUrl:path}')
+async def get_api(request:Request, automationUrl:str):
+    return await api.getApi(request, automationUrl)
 
 
-@app.post('/{path:path}', tags=['API'])
-async def post_api(request:Request, path:str):
-    return await api.postApi(request, path)
+@app.post('/{automationUrl:path}')
+async def post_api(request:Request, automationUrl:str):
+    return await api.postApi(request, automationUrl)
 
 
-@app.put('/{path:path}', tags=['API'])
-async def put_api(request:Request, path:str):
-    return await api.putApi(request, path)
+@app.put('/{automationUrl:path}')
+async def put_api(request:Request, automationUrl:str):
+    return await api.putApi(request, automationUrl)
 
 
-@app.patch('/{path:path}', tags=['API'])
-async def patch_api(request:Request, path:str):
-    return await api.patchApi(request, path)
+@app.patch('/{automationUrl:path}')
+async def patch_api(request:Request, automationUrl:str):
+    return await api.patchApi(request, automationUrl)
 
 
-@app.delete('/{path:path}', tags=['API'])
-async def delete_api(request:Request, path:str):
-    return await api.deleteApi(request, path)
+@app.delete('/{automationUrl:path}')
+async def delete_api(request:Request, automationUrl:str):
+    return await api.deleteApi(request, automationUrl)
