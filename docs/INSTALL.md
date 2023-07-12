@@ -96,10 +96,17 @@ $ docker build --no-cache -t opera/nginx:latest ./services/nginx
 
 ### 1) Backend 서비스 모듈 실행
 
-기본 실행 환경이라면 다음과 같이 실행합니다.
+#### Redis 캐시 서비스 모듈
 
 ```
 $ docker run --name redis --network opera -d opera/redis:latest
+```
+
+#### Auth & API 서비스 모듈
+
+기본 실행 환경이라면 다음과 같이 실행합니다.
+
+```
 $ docker run --name auth --network opera -d opera/auth:latest
 $ docker run --name api --network opera -d opera/api:latest
 ```
@@ -111,10 +118,10 @@ $ docker run --name auth --network opera -p 8081:8081 -d opera/auth:latest
 $ docker run --name api --network opera -p 8082:8082 -d opera/api:latest
 ```
 
-이후 Swagger는 다음 URL을 통해 확인 가능합니다
+Swagger는 다음 URL을 통해 확인 가능합니다
 
- - Auth Swagger = http://{{portalAddress}}:8081/docs
- - API Swagger = http://{{portalAddress}}:8082/docs
+ - Auth Swagger = http://{{portalHostName}}:8081/docs
+ - API Swagger = http://{{portalHostName}}:8082/docs
 
 ### 2) Frontend 서비스 모듈 실행
 
