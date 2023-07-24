@@ -122,7 +122,7 @@ function setProjects(projectId) {
 }
 
 function showDeployments() {
-	getInv('/deployments', function(data) {
+	getInv('/deployments?projectId=' + currProjectId, function(data) {
 	//getApi('/deployment/api/deployments?expand=resources&projects=' + currProjectId, function(data) {
 		//var deployments = data.content;
 		var deployments = data;
