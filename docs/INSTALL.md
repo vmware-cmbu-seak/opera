@@ -87,6 +87,7 @@ $ docker build --no-cache -t opera/fastapi:latest -f fastapi.docker .
 $ docker build --no-cache -t opera/redis:latest ./services/redis
 $ docker build --no-cache -t opera/auth:latest -f ./services/auth/Dockerfile .
 $ docker build --no-cache -t opera/api:latest -f ./services/api/Dockerfile .
+$ docker build --no-cache -t opera/inv:latest -f ./services/inv/Dockerfile .
 $ docker build --no-cache -t opera/nginx:latest ./services/nginx
 ```
 
@@ -109,6 +110,7 @@ $ docker run --name redis --network opera -d opera/redis:latest
 ```
 $ docker run --name auth --network opera -d opera/auth:latest
 $ docker run --name api --network opera -d opera/api:latest
+$ docker run --name inv --network opera -d opera/inv:latest
 ```
 
 Auth와 API 서비스 모듈의 Swagger를 직접 확인하기 위한 설정이 필요하다면 다음과 같이 실행합니다
@@ -116,6 +118,7 @@ Auth와 API 서비스 모듈의 Swagger를 직접 확인하기 위한 설정이 
 ```
 $ docker run --name auth --network opera -p 8081:8081 -d opera/auth:latest
 $ docker run --name api --network opera -p 8082:8082 -d opera/api:latest
+$ docker run --name inv --network opera -p 8082:8082 -d opera/inv:latest
 ```
 
 Swagger는 다음 URL을 통해 확인 가능합니다

@@ -14,42 +14,23 @@
 # Import
 #===============================================================================
 from fastapi import FastAPI, Request
+from typing import Optional
 from common import getConfig, Logger
-from views import API
+from views import Inv
 
 
 #===============================================================================
 # SingleTone
 #===============================================================================
 config = getConfig('opera.conf')
-app = FastAPI(title='Api Module')
+app = FastAPI(title='Inven Module')
 Logger.register(config)
-api = API(config)
+inv = Inv(config)
 
 
 #===============================================================================
 # Interfaces
 #===============================================================================
-@app.get('/{apiPath:path}')
-async def get_api(request:Request, apiPath:str):
-    return await api.getApi(request, apiPath)
-
-
-@app.post('/{apiPath:path}')
-async def post_api(request:Request, apiPath:str):
-    return await api.postApi(request, apiPath)
-
-
-@app.put('/{apiPath:path}')
-async def put_api(request:Request, apiPath:str):
-    return await api.putApi(request, apiPath)
-
-
-@app.patch('/{apiPath:path}')
-async def patch_api(request:Request, apiPath:str):
-    return await api.patchApi(request, apiPath)
-
-
-@app.delete('/{apiPath:path}')
-async def delete_api(request:Request, apiPath:str):
-    return await api.deleteApi(request, apiPath)
+@app.get('/deployments')
+async def getDeploymentList(request:Request, projectId:Optional[str] = None):
+    return await inv.getDeploymentList(request, projectId)

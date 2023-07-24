@@ -40,6 +40,23 @@ function getApi(url, func) {
 	});
 }
 
+function getInv(url, func) {
+	$.ajax({
+		type: "get",
+		url: "/inv" + url,
+		headers: {
+			"CMP-REGION-ENDPOINT": currEndpoint
+		},
+		success: function(data) {
+			console.log(data);
+			func(data);
+		},
+		error: function(xhr, status, thrown) {
+			console.log(xhr);
+		}
+	});
+}
+
 // CMP Functions
 function setRegionEndpoint(regionEndpoint) {
 	var html = "";
@@ -105,8 +122,10 @@ function setProjects(projectId) {
 }
 
 function showDeployments() {
-	getApi('/deployment/api/deployments?expand=resources&projects=' + currProjectId, function(data) {
-		var deployments = data.content;
+	getInv('/deployments', function(data) {
+	//getApi('/deployment/api/deployments?expand=resources&projects=' + currProjectId, function(data) {
+		//var deployments = data.content;
+		var deployments = data;
 		var html = "";
 		deployments.forEach(function(deployment) {
 			html += '<div class="card opera-content-item">';

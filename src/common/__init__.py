@@ -12,3 +12,4 @@
 
 from .constants import Timeout
 from .utils import setEnvironment, getConfig, Logger, TaskOperator
+from .modules import UserAuth
