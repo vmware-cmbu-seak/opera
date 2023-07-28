@@ -163,3 +163,4 @@ cython_debug/
 .settings
 /src/services/nginx/webcert/cert.crt
 /src/services/nginx/webcert/cert.key
+/src/services/nginx/sample
