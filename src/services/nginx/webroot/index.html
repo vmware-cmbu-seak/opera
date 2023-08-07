@@ -36,7 +36,14 @@
 
 </head>
 
-<body id="page-top">
+<body>
+    
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/static/vendor/jquery-cookie/jquery-cookie.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/opera.js"></script>
+    <script src="/static/js/main.js"></script>
 
     <div id="wrapper">
 
@@ -60,7 +67,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-server"></i>
-                    <span>자원 정보</span>
+                    <span>배포정보</span>
                 </a>
             </li>
 
@@ -68,7 +75,7 @@
             <div class="sidebar-heading">서비스 요청</div>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-toggle="collapse" data-target="#catalog-virtual-machine">
-                    <i class="fas fa-fw fa-desktop"></i>
+                    <i class="fas fa-fw fa-bullseye"></i>
                     <span>가상 시스템</span>
                 </a>
                 <div id="catalog-virtual-machine" class="collapse" data-parent="#opera-menu">
@@ -81,7 +88,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-toggle="collapse" data-target="#catalog-network">
-                    <i class="fas fa-fw fa-network-wired"></i>
+                    <i class="fas fa-fw fa-bullseye"></i>
                     <span>네트워크 환경</span>
                 </a>
                 <div id="catalog-network" class="collapse" data-parent="#opera-menu">
@@ -93,7 +100,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-toggle="collapse" data-target="#catalog-service">
-                    <i class="fas fa-fw fa-box"></i>
+                    <i class="fas fa-fw fa-bullseye"></i>
                     <span>완성형 서비스</span>
                 </a>
                 <div id="catalog-service" class="collapse" data-parent="#opera-menu">
@@ -108,7 +115,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-toggle="collapse" data-target="#catalog-environment">
-                    <i class="fas fa-fw fa-toolbox"></i>
+                    <i class="fas fa-fw fa-bullseye"></i>
                     <span>기타 서비스</span>
                 </a>
                 <div id="catalog-environment" class="collapse" data-parent="#opera-menu">
@@ -123,13 +130,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>환경 설정</span>
+                    <span>환경설정</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-headset"></i>
-                    <span>헬프 데스크</span>
+                    <span>헬프데스크</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -140,9 +147,7 @@
             </li>
 
             <hr class="sidebar-divider d-none d-md-block">
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="opera-menu-toggle"></button>
-            </div>
+            <div class="text-center d-none d-md-inline"><button class="rounded-circle border-0" id="opera-menu-toggle"></button></div>
 
         </ul>
         
@@ -153,11 +158,35 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     
                     <button id="opera-menu-toggle-top" class="btn btn-link d-md-none rounded-circle mr-3"><i class="fa fa-bars"></i></button>
-
+                    
+                    <div class="d-flex">
+                        <div class="dropdown no-arrow mr-2">
+                            <a href="#" class="btn btn-dark btn-icon-split dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="icon text-white"><i class="fas fa-flag"></i></span>
+                                <span id="opera-curr-region" class="text">vra.vmkloud.com</span>
+                            </a>
+                            <div id="opera-regions" class="dropdown-menu animated--fade-in">
+                                <a class="dropdown-item" href="#">vra.vmkloud.com</a>
+                                <a class="dropdown-item" href="#">vlab-vra.vmkloud.com</a>
+                            </div>
+                        </div>
+                        <div class="dropdown no-arrow">
+                            <a href="#" class="btn btn-dark btn-icon-split dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="icon text-white"><i class="fas fa-flag"></i></span>
+                                <span id="opera-curr-project" class="text">vmk</span>
+                            </a>
+                            <div id="opera-projects" class="dropdown-menu animated--fade-in">
+                                <a class="dropdown-item">env</a>
+                                <a class="dropdown-item">vmk</a>
+                                <a class="dropdown-item">vpz</a>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <ul class="navbar-nav ml-auto">
 
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
@@ -180,35 +209,35 @@
                         </li>
 
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
                                 <h6 class="dropdown-header">메세지</h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="/static/img/undraw_profile_1.svg" alt="..."><div class="status-indicator bg-success"></div></div>
+                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="/static/img/undraw_profile_1.svg"><div class="status-indicator bg-success"></div></div>
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
                                         <div class="small text-gray-500">Emily Fowler · 58m</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="/static/img/undraw_profile_2.svg" alt="..."><div class="status-indicator"></div></div>
+                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="/static/img/undraw_profile_2.svg"><div class="status-indicator"></div></div>
                                     <div>
                                         <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
                                         <div class="small text-gray-500">Jae Chun · 1d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="/static/img/undraw_profile_3.svg" alt="..."><div class="status-indicator bg-warning"></div></div>
+                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="/static/img/undraw_profile_3.svg"><div class="status-indicator bg-warning"></div></div>
                                     <div>
                                         <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
                                         <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="..."><div class="status-indicator bg-success"></div></div>
+                                    <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"><div class="status-indicator bg-success"></div></div>
                                     <div>
                                         <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
                                         <div class="small text-gray-500">Chicken the Dog · 2w</div>
@@ -220,8 +249,10 @@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><strong>jangh</strong></span>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <strong id="opera-user">USER-NAME-HERE</strong>
+                                </span>
                                 <img class="img-profile rounded-circle" src="/static/img/undraw_profile.svg">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
@@ -229,7 +260,7 @@
                                 <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>사용자 설정</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>활동 기록</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>로그아웃</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#opera-logout-modal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>로그아웃</a>
                             </div>
                         </li>
 
@@ -240,9 +271,10 @@
                 <!-- MAIN -->
                 <div class="container-fluid">
 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Deployments</h1>
                     </div>
+                    -->
 
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -304,7 +336,7 @@
 
                     <div class="row">
 
-                        <div class="col-lg-12">
+                        <div id="opera-deployments" class="col-lg-12">
 
                             <!-- Deployment 1 -->
                             <div class="card shadow mb-4">
@@ -313,7 +345,7 @@
                                     <div class="dropdown no-arrow d-flex flex-row align-items-right">
                                         <div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> Virtual Machine Cluster</small></div>
                                         <div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> 7713</small></div>
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"><i class="fas fa-bars fa-sm fa-fw text-white"></i></a>
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="fas fa-bars fa-sm fa-fw text-white"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
                                             <div class="dropdown-header">운영 작업</div>
                                             <a class="dropdown-item" href="#">프로젝트 변경</a>
@@ -366,7 +398,7 @@
                                         </div>
                                         <!-- VM 5 -->
                                         <div class="card shadow mb-1">
-                                            <div href="#resource-vm-5" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">
+                                            <div href="#resource-vm-5" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-danger" data-toggle="collapse" role="button">
                                                 <div class="dropdown no-arrow">
                                                     <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>
                                                     <div class="dropdown-menu shadow animated--fade-in">
@@ -429,81 +461,16 @@
 
                             <!-- Deployment 2 -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-danger">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
                                     <h6 class="m-0 font-weight-bold text-white">Sample Deployment 2</h6>
                                     <div class="dropdown no-arrow d-flex flex-row align-items-right">
-                                        <div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> Virtual Machine Cluster</small></div>
-                                        <div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> 0</small></div>
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"><i class="fas fa-bars fa-sm fa-fw text-white"></i></a>
+                                        <div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> Virtual Machine Single</small></div>
+                                        <div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> 1234</small></div>
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="fas fa-bars fa-sm fa-fw text-white"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
-                                            <div class="dropdown-header">운영 작업</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Resources -->
-                                <div class="row card-body p-2">
-                                    <div class="col-6 pr-1">
-                                        <!-- VM 1 -->
-                                        <div class="card shadow mb-1">
-                                            <div href="#resource-vm-21" class="card-header collapsed py-3 d-flex flex-row align-items-left bg-danger" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
-                                                    </div>
-                                                </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
-                                            </div>
-                                            <div class="collapse" id="resource-vm-21">
-                                                <div class="card-body p-1">VM 1 정보</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 pl-1">
-                                        <!-- VM 2 -->
-                                        <div class="card shadow mb-1">
-                                            <div href="#resource-vm-22" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-danger" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
-                                                    </div>
-                                                </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 2</h6>
-                                            </div>
-                                            <div class="collapse" id="resource-vm-22">
-                                                <div class="card-body p-1">VM 2 정보</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Deployment 3 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
-                                    <h6 class="m-0 font-weight-bold text-white">Sample Deployment 3</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                                             <div class="dropdown-header">운영 작업</div>
                                             <a class="dropdown-item" href="#">프로젝트 변경</a>
                                             <a class="dropdown-item" href="#">소유자 변경</a>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">설정 변경</a>
                                             <a class="dropdown-item" href="#">삭제</a>
                                         </div>
@@ -513,11 +480,9 @@
                                 <div class="card-body p-2">
                                     <!-- VM 1 -->
                                     <div class="card shadow mb-1">
-                                        <div href="#resource-vm-31" class="card-header collapsed py-3 d-flex flex-row align-items-left bg-success" data-toggle="collapse" role="button">
+                                        <div href="#resource-vm-21" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">
                                             <div class="dropdown no-arrow">
-                                                <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                </a>
+                                                <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>
                                                 <div class="dropdown-menu shadow animated--fade-in">
                                                     <div class="dropdown-header">운영 작업</div>
                                                     <a class="dropdown-item">전원 켬</a>
@@ -528,26 +493,25 @@
                                             </div>
                                             <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
                                         </div>
-                                        <div class="collapse" id="resource-vm-31">
+                                        <div class="collapse" id="resource-vm-21">
                                             <div class="card-body p-1">VM 1 정보</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Deployment Project -->
+                            <!-- Deployment 3 -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
-                                    <h6 class="m-0 font-weight-bold text-white">Sample Project Deployment</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                    <h6 class="m-0 font-weight-bold text-white">Sample Deployment 3</h6>
+                                    <div class="dropdown no-arrow d-flex flex-row align-items-right">
+                                        <div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> Project</small></div>
+                                        <div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> 0</small></div>
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="fas fa-bars fa-sm fa-fw text-white"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
                                             <div class="dropdown-header">운영 작업</div>
                                             <a class="dropdown-item" href="#">프로젝트 변경</a>
                                             <a class="dropdown-item" href="#">소유자 변경</a>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">설정 변경</a>
                                             <a class="dropdown-item" href="#">삭제</a>
                                         </div>
@@ -557,166 +521,6 @@
                                 <div class="row card-body p-1"></div>
                             </div>
                             
-                            <!-- Deployment VPZ -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
-                                    <h6 class="m-0 font-weight-bold text-white">Sample VPZ Deployment</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">운영 작업</div>
-                                            <a class="dropdown-item" href="#">프로젝트 변경</a>
-                                            <a class="dropdown-item" href="#">소유자 변경</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">설정 변경</a>
-                                            <a class="dropdown-item" href="#">삭제</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Resources -->
-                                <div class="row card-body p-1"></div>
-                            </div>
-                            
-                            <!-- Deployment 4 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
-                                    <h6 class="m-0 font-weight-bold text-white">Sample Deployment 4</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">운영 작업</div>
-                                            <a class="dropdown-item" href="#">프로젝트 변경</a>
-                                            <a class="dropdown-item" href="#">소유자 변경</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">설정 변경</a>
-                                            <a class="dropdown-item" href="#">삭제</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Resources -->
-                                <div class="row card-body p-2">
-                                    <div class="col-6 pr-1">
-                                        <!-- VM 1 -->
-                                        <div class="card shadow mb-1">
-                                            <div href="#resource-vm-41" class="card-header collapsed py-3 d-flex flex-row align-items-left bg-success" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
-                                                    </div>
-                                                </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
-                                            </div>
-                                            <div class="collapse" id="resource-vm-41">
-                                                <div class="card-body p-1">VM 1 정보</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 pl-1">
-                                        <!-- VM 2 -->
-                                        <div class="card shadow mb-1">
-                                            <div href="#resource-vm-42" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
-                                                    </div>
-                                                </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 2</h6>
-                                            </div>
-                                            <div class="collapse" id="resource-vm-42">
-                                                <div class="card-body p-1">VM 2 정보</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Deployment 5 -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
-                                    <h6 class="m-0 font-weight-bold text-white">Sample Deployment 5</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">운영 작업</div>
-                                            <a class="dropdown-item" href="#">프로젝트 변경</a>
-                                            <a class="dropdown-item" href="#">소유자 변경</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">설정 변경</a>
-                                            <a class="dropdown-item" href="#">삭제</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Resources -->
-                                <div class="row card-body p-2">
-                                    <div class="col-6 pr-1">
-                                        <!-- VM 1 -->
-                                        <div class="card shadow mb-1">
-                                            <div href="#resource-vm-51" class="card-header collapsed py-3 d-flex flex-row align-items-left bg-success" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
-                                                    </div>
-                                                </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
-                                            </div>
-                                            <div class="collapse" id="resource-vm-51">
-                                                <div class="card-body p-1">VM 1 정보</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 pl-1">
-                                        <!-- VM 2 -->
-                                        <div class="card shadow mb-1">
-                                            <div href="#resource-vm-52" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
-                                                    </div>
-                                                </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 2</h6>
-                                            </div>
-                                            <div class="collapse" id="resource-vm-52">
-                                                <div class="card-body p-1">VM 2 정보</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
                     </div>
@@ -734,30 +538,22 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="opera-logout-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                    <h5 class="modal-title">로그아웃 하시겠습니까?</h5>
+                    <button class="close" type="button" data-dismiss="modal"><span>×</span></button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">"로그아웃"을 선택하면 현재의 SSO 세션이 종료되고 로그아웃 합니다.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                    <a class="btn btn-primary" href="/auth/logout">로그아웃</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/static/js/opera.js"></script>
-
+    
 </body>
 
 </html>

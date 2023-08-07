@@ -47,7 +47,7 @@ class Inv(UserAuth):
     async def getDeploymentList(self, request:Request, projectId:Optional[str] = None):
         endpoint, token = await self.checkApi(request)
         skip, top = 0, PAGING_TOP
-        url = f'https://{endpoint}/deployment/api/deployments?expand=resources&$skip={skip}&$top={top}'
+        url = f'https://{endpoint}/deployment/api/deployments?expand=resources,catalog&$skip={skip}&$top={top}'
         if projectId: url = f'{url}&projects={projectId}'
         headers = {
             'Authorization': f'Bearer {token}',
@@ -60,7 +60,7 @@ class Inv(UserAuth):
                 with TaskOperator() as to:
                     for _ in range(count):
                         skip += top
-                        url = f'https://{endpoint}/deployment/api/deployments?expand=resources&$skip={skip}&$top={top}'
+                        url = f'https://{endpoint}/deployment/api/deployments?expand=resources,catalog&$skip={skip}&$top={top}'
                         if projectId: url = f'{url}&projects={projectId}'
                         to.do(self.get(s, url, headers))
                     remainPages = await to.wait()

@@ -1,3 +1,5 @@
 FROM opera/fastapi:latest
 COPY . .
+STOPSIGNAL SIGQUIT
+EXPOSE 8083
 ENV SERVICE_MODULE="inv"
