@@ -58,7 +58,16 @@ function getInv(url, func) {
 }
 
 // CMP Functions
+function showWaitPanel() {
+	$("#opera-wait").show();
+}
+
+function hideWaitPanel() {
+	$("#opera-wait").hide(500);
+}
+
 function getRegions(regionEndpoint) {
+	showWaitPanel();
 	var html = "";
 	currUser.aaEndpoints.forEach(function(aaEndpoint) {
 		if (regionEndpoint === undefined || regionEndpoint == null || regionEndpoint == "") {
@@ -92,6 +101,7 @@ function getRegions(regionEndpoint) {
 }
 
 function getProjects(projectId) {
+	showWaitPanel();
 	getApi('/iaas/api/projects', function(data) {
 		var projects = data.content;
 		var html = "";
@@ -123,8 +133,6 @@ function getProjects(projectId) {
 
 function showDeployments() {
 	getInv('/deployments?projectId=' + currProjectId, function(data) {
-	//getApi('/deployment/api/deployments?expand=resources&projects=' + currProjectId, function(data) {
-		//var deployments = data.content;
 		var deployments = data;
 		var html = "";
 		deployments.forEach(function(deployment) {
@@ -140,7 +148,7 @@ function showDeployments() {
 				default:
 					html += '<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-secondary">';
 			}
-            html += '<h6 class="m-0 font-weight-bold text-white">' + deployment.name + '</h6><div class="dropdown no-arrow d-flex flex-row align-items-right">';
+            html += '<h6 class="m-0 font-weight-bold text-white">' + deployment.name + '</h6><div class="dropdown no-arrow d-flex flex-row align-items-center justify-content-end">';
             if (deployment.catalog !== undefined || deployment.catalog != null) {
 				html += '<div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> ' + deployment.catalog.name + '</small></div>';
 			} else {
@@ -158,32 +166,53 @@ function showDeployments() {
             html += '<a class="dropdown-item" href="#">소유자 변경</a>';
             html += '<a class="dropdown-item" href="#">설정 변경</a>';
             html += '<a class="dropdown-item" href="#">삭제</a>';
-            html += '</div></div></div><div class="card-body p-2">';
+            html += '</div></div></div>';
+			var vmHtmls = [];
             deployment.resources.forEach(function(resource) {
 				if (resource.type.indexOf("Machine") > -1) {
-					html += '<div class="card shadow mb-1">';
+					var vmHtml = "";
+					vmHtml += '<div class="card shadow mb-1">';
 					if (resource.properties.powerState == "ON") {
-						html += '<div href="#opera-' + resource.id + '" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">';
+						vmHtml += '<div href="#opera-' + resource.id + '" class="card-header collapsed py-3 d-flex flex-row align-items-center justify-content-between bg-success" data-toggle="collapse" role="button">';
 					} else {
-						html += '<div href="#opera-' + resource.id + '" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-secondary" data-toggle="collapse" role="button">';
+						vmHtml += '<div href="#opera-' + resource.id + '" class="card-header collapsed py-3 d-flex flex-row align-items-center justify-content-between bg-secondary" data-toggle="collapse" role="button">';
 					}
-					html += '<div class="dropdown no-arrow">';
-					html += '<a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>';
-					html += '<div class="dropdown-menu shadow animated--fade-in">';
-					html += '<div class="dropdown-header">운영 작업</div>';
-					html += '<a class="dropdown-item">전원 켬</a>';
-					html += '<a class="dropdown-item">전원 끔</a>';
-					html += '<a class="dropdown-item">스냅 샷</a>';
-					html += '<a class="dropdown-item">삭제</a>';
-					html += '</div></div>';
-					html += '<h6 class="m-0 font-weight-bold text-white">' + resource.properties.resourceName + ' : ' + resource.properties.address + '</h6></div>';
-					html += '<div id="opera-' + resource.id + '" class="collapse">';
-					html += '<div class="card-body p-1">' + resource.properties.resourceName + '</div></div></div>';
+					vmHtml += '<div class="d-flex flex-row align-items-center justify-content-start">';
+					vmHtml += '<div class="dropdown no-arrow">';
+					vmHtml += '<a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>';
+					vmHtml += '<div class="dropdown-menu shadow animated--fade-in">';
+					vmHtml += '<div class="dropdown-header">운영 작업</div>';
+					vmHtml += '<a class="dropdown-item">전원 켬</a>';
+					vmHtml += '<a class="dropdown-item">전원 끔</a>';
+					vmHtml += '<a class="dropdown-item">스냅 샷</a>';
+					vmHtml += '<a class="dropdown-item">삭제</a>';
+					vmHtml += '</div></div>';
+					vmHtml += '<h6 class="m-0 font-weight-bold text-white">' + resource.properties.resourceName + '</h6></div>';
+					vmHtml += '<div class="d-flex flex-row align-items-center justify-content-end">';
+					if (resource.properties.address !== undefined && resource.properties.address != null) {
+						vmHtml += '<h6 class="m-0 font-weight-bold text-white">' + resource.properties.address + '</h6>';						
+					}
+					vmHtml += '</div></div>';
+					vmHtml += '<div id="opera-' + resource.id + '" class="collapse">';
+					vmHtml += '<div class="card-body p-1">' + resource.properties.resourceName + '</div></div></div>';
+					vmHtmls.push(vmHtml);
 				}
-			})
+			});
+			if (vmHtmls.length > 1) {
+				var cols = [[],[]];
+				for (var i=0; i<vmHtmls.length; i++) {
+					cols[i%2].push(vmHtmls[i]);
+				}
+				var col1 = '<div class="col-6 pr-1">' + cols[0].join() + '</div>';
+				var col2 = '<div class="col-6 pl-1">' + cols[1].join() + '</div>';
+				html += '<div class="row card-body p-2">' + col1 + col2;
+			} else {
+				html += '<div class="card-body p-2">' + vmHtmls.join();
+			}
 			html += '</div></div>';
 		});
 		$("#opera-deployments").html(html);
+		hideWaitPanel();
 	});
 };
 
@@ -251,3 +280,8 @@ function checkUser() {
 		event.preventDefault();
 	});
 })(jQuery);
+
+$(document).ready(function() {
+	checkUser();
+	//hideWaitPanel();
+});

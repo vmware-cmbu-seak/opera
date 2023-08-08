@@ -30,7 +30,7 @@ PAGING_TOP = 0
 #===============================================================================
 # Implement
 #===============================================================================
-class Inv(UserAuth):
+class App(UserAuth):
     
     def __init__(self, config):
         UserAuth.__init__(self, config)

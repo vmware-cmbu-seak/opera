@@ -32,6 +32,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/theme.css" rel="stylesheet">
     <link href="/static/css/opera.css" rel="stylesheet">
 
 </head>
@@ -43,10 +44,9 @@
     <script src="/static/vendor/jquery-cookie/jquery-cookie.js"></script>
     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/opera.js"></script>
-    <script src="/static/js/main.js"></script>
-
+    
     <div id="wrapper">
-
+        
         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="opera-menu">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon">
@@ -162,7 +162,7 @@
                     <div class="d-flex">
                         <div class="dropdown no-arrow mr-2">
                             <a href="#" class="btn btn-dark btn-icon-split dropdown-toggle" type="button" data-toggle="dropdown">
-                                <span class="icon text-white"><i class="fas fa-flag"></i></span>
+                                <span class="icon text-white"><i class="fas fa-cloud"></i> 클라우드</span>
                                 <span id="opera-curr-region" class="text">vra.vmkloud.com</span>
                             </a>
                             <div id="opera-regions" class="dropdown-menu animated--fade-in">
@@ -172,7 +172,7 @@
                         </div>
                         <div class="dropdown no-arrow">
                             <a href="#" class="btn btn-dark btn-icon-split dropdown-toggle" type="button" data-toggle="dropdown">
-                                <span class="icon text-white"><i class="fas fa-flag"></i></span>
+                                <span class="icon text-white"><i class="fas fa-folder-open"></i> 프로젝트</span>
                                 <span id="opera-curr-project" class="text">vmk</span>
                             </a>
                             <div id="opera-projects" class="dropdown-menu animated--fade-in">
@@ -342,7 +342,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
                                     <h6 class="m-0 font-weight-bold text-white">Sample Deployment 1</h6>
-                                    <div class="dropdown no-arrow d-flex flex-row align-items-right">
+                                    <div class="dropdown no-arrow d-flex flex-row align-items-center justify-content-end">
                                         <div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> Virtual Machine Cluster</small></div>
                                         <div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> 7713</small></div>
                                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="fas fa-bars fa-sm fa-fw text-white"></i></a>
@@ -360,18 +360,23 @@
                                     <div class="col-6 pr-1">
                                         <!-- VM 1 -->
                                         <div class="card shadow mb-1">
-                                            <div href="#resource-vm-1" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>
-                                                    <div class="dropdown-menu shadow animated--fade-in">
-                                                        <div class="dropdown-header">운영 작업</div>
-                                                        <a class="dropdown-item">전원 켬</a>
-                                                        <a class="dropdown-item">전원 끔</a>
-                                                        <a class="dropdown-item">스냅 샷</a>
-                                                        <a class="dropdown-item">삭제</a>
+                                            <div href="#resource-vm-1" class="card-header collapsed py-3 d-flex flex-row align-items-center justify-content-between bg-success" data-toggle="collapse" role="button">
+                                                <div class="d-flex flex-row align-items-center justify-content-start">
+                                                    <div class="dropdown no-arrow">
+                                                        <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>
+                                                        <div class="dropdown-menu shadow animated--fade-in">
+                                                            <div class="dropdown-header">운영 작업</div>
+                                                            <a class="dropdown-item">전원 켬</a>
+                                                            <a class="dropdown-item">전원 끔</a>
+                                                            <a class="dropdown-item">스냅 샷</a>
+                                                            <a class="dropdown-item">삭제</a>
+                                                        </div>
                                                     </div>
+                                                    <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
                                                 </div>
-                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
+                                                <div class="d-flex flex-row align-items-center justify-content-end">
+                                                    <h6 class="m-0 font-weight-bold text-white">192.168.0.101</h6>
+                                                </div>
                                             </div>
                                             <div class="collapse" id="resource-vm-1">
                                                 <div class="card-body p-1">VM 1 정보</div>
@@ -480,18 +485,23 @@
                                 <div class="card-body p-2">
                                     <!-- VM 1 -->
                                     <div class="card shadow mb-1">
-                                        <div href="#resource-vm-21" class="card-header collapsed py-3 d-flex flex-row align-items-center bg-success" data-toggle="collapse" role="button">
-                                            <div class="dropdown no-arrow">
-                                                <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>
-                                                <div class="dropdown-menu shadow animated--fade-in">
-                                                    <div class="dropdown-header">운영 작업</div>
-                                                    <a class="dropdown-item">전원 켬</a>
-                                                    <a class="dropdown-item">전원 끔</a>
-                                                    <a class="dropdown-item">스냅 샷</a>
-                                                    <a class="dropdown-item">삭제</a>
+                                        <div href="#resource-vm-21" class="card-header collapsed py-3 d-flex flex-row align-items-center justify-content-between bg-success" data-toggle="collapse" role="button">
+                                            <div class="d-flex flex-row align-items-center justify-content-start">
+                                                <div class="dropdown no-arrow">
+                                                    <a class="dropdown-toggle mr-2 pr-2" role="button" data-toggle="dropdown"><i class="fas fa-fw fa-sm fa-bars text-white"></i></a>
+                                                    <div class="dropdown-menu shadow animated--fade-in">
+                                                        <div class="dropdown-header">운영 작업</div>
+                                                        <a class="dropdown-item">전원 켬</a>
+                                                        <a class="dropdown-item">전원 끔</a>
+                                                        <a class="dropdown-item">스냅 샷</a>
+                                                        <a class="dropdown-item">삭제</a>
+                                                    </div>
                                                 </div>
+                                                <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
                                             </div>
-                                            <h6 class="m-0 font-weight-bold text-white">Sample VM Name 1</h6>
+                                            <div class="d-flex flex-row align-items-center justify-content-end">
+                                                <h6 class="m-0 font-weight-bold text-white">192.168.0.100</h6>                                            
+                                            </div>
                                         </div>
                                         <div class="collapse" id="resource-vm-21">
                                             <div class="card-body p-1">VM 1 정보</div>
@@ -531,6 +541,18 @@
 
         </div>
 
+    </div>
+    
+    <div id="opera-wait">
+        <div id="opera-wait-bg" class="d-flex align-middle align-items-center justify-content-center">
+            <i class="fas fa-fw fa-circle fa-10x"></i>
+        </div>
+        <div id="opera-wait-icon" class="d-flex align-middle align-items-center justify-content-center">
+            <img src="/static/img/opera_logo.png" height="100">
+        </div>
+        <div id="opera-wait-spin" class="d-flex align-middle align-items-center justify-content-center">
+            <i class="fas fa-fw fa-circle-notch fa-spin fa-10x"></i>
+        </div>
     </div>
 
     <a class="scroll-to-top rounded" href="#page-top">
