@@ -1,7 +1,13 @@
 // Global Variables
 var currUser = null;
-var currEndpoint = null;
+var currRegion = null;
 var currProjectId = null;
+var regionBrands = {};
+
+// Tools
+function numberWithCommas(x) {
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 // Interfaces
 function relocateLoginPage() {
@@ -28,7 +34,7 @@ function getApi(url, func) {
 		type: "get",
 		url: "/api" + url,
 		headers: {
-			"CMP-REGION-ENDPOINT": currEndpoint
+			"CMP-REGION-ENDPOINT": currRegion
 		},
 		success: function(data) {
 			console.log(data);
@@ -40,12 +46,12 @@ function getApi(url, func) {
 	});
 }
 
-function getInv(url, func) {
+function getApp(url, func) {
 	$.ajax({
 		type: "get",
-		url: "/inv" + url,
+		url: "/app" + url,
 		headers: {
-			"CMP-REGION-ENDPOINT": currEndpoint
+			"CMP-REGION-ENDPOINT": currRegion
 		},
 		success: function(data) {
 			console.log(data);
@@ -66,6 +72,33 @@ function hideWaitPanel() {
 	$("#opera-wait").hide(500);
 }
 
+function getRegionBrand(regionEndpoint) {
+	var brand = regionBrands[regionEndpoint];
+	if (brand === undefined || brand == null || brand == "") {
+		$.ajax({
+			type: "get",
+			url: "/api/userprofile/api/branding/byservice/cloud_assembly",
+			async: false,
+			headers: {
+				"CMP-REGION-ENDPOINT": regionEndpoint
+			},
+			success: function(data) {
+				try {
+					brand = data.content[0].serviceName;
+				} catch (e) {
+					brand = regionEndpoint;
+				}
+			},
+			error: function(xhr, status, thrown) {
+				console.log(xhr);
+				brand = regionEndpoint;
+			}
+		});
+		regionBrands[regionEndpoint] = brand;
+	}
+	return brand;
+}
+
 function getRegions(regionEndpoint) {
 	showWaitPanel();
 	var html = "";
@@ -73,26 +106,26 @@ function getRegions(regionEndpoint) {
 		if (regionEndpoint === undefined || regionEndpoint == null || regionEndpoint == "") {
 			if (aaEndpoint.check) {
 				if (html == "") {
-					html += '<a class="dropdown-item active">' + aaEndpoint.endpoint + '</a>';
-					currEndpoint = aaEndpoint.endpoint;
-					$("#opera-curr-region").html(currEndpoint);
+					html += '<a class="dropdown-item active">' + getRegionBrand(aaEndpoint.endpoint) + '</a>';
+					$("#opera-curr-region").html(getRegionBrand(aaEndpoint.endpoint));
+					currRegion = aaEndpoint.endpoint;
 				} else {
-					html += '<a class="dropdown-item" onclick="getRegions(\'' + aaEndpoint.endpoint + '\');">' + aaEndpoint.endpoint + '</a>';
+					html += '<a class="dropdown-item" onclick="getRegions(\'' + aaEndpoint.endpoint + '\');">' + getRegionBrand(aaEndpoint.endpoint) + '</a>';
 				}
 			} else {
-				html += '<a class="dropdown-item">' + aaEndpoint.endpoint + '</a>';
+				html += '<a class="dropdown-item">' + getRegionBrand(aaEndpoint.endpoint) + '</a>';
 			}
 		} else {
 			if (aaEndpoint.check) {
 				if (aaEndpoint.endpoint == regionEndpoint) {
-					html += '<a class="dropdown-item active">' + aaEndpoint.endpoint + '</a>';
-					currEndpoint = aaEndpoint.endpoint;
-					$("#opera-curr-region").html(currEndpoint);
+					html += '<a class="dropdown-item active">' + getRegionBrand(aaEndpoint.endpoint) + '</a>';
+					$("#opera-curr-region").html(getRegionBrand(aaEndpoint.endpoint));
+					currRegion = aaEndpoint.endpoint;
 				} else {
-					html += '<a class="dropdown-item" onclick="getRegions(\'' + aaEndpoint.endpoint + '\');">' + aaEndpoint.endpoint + '</a>';
+					html += '<a class="dropdown-item" onclick="getRegions(\'' + aaEndpoint.endpoint + '\');">' + getRegionBrand(aaEndpoint.endpoint) + '</a>';
 				}
 			} else {
-				html += '<a class="dropdown-item">' + aaEndpoint.endpoint + '</a>';
+				html += '<a class="dropdown-item">' + getRegionBrand(aaEndpoint.endpoint) + '</a>';
 			}
 		}
 	});
@@ -127,12 +160,13 @@ function getProjects(projectId) {
 			});
 		}
 		$("#opera-projects").html(html);
-		showDeployments();
+		getAggregateMetrics();
+		getDeployments();
 	});
 };
 
-function showDeployments() {
-	getInv('/deployments?projectId=' + currProjectId, function(data) {
+function getDeployments() {
+	getApp('/deployments?projectId=' + currProjectId, function(data) {
 		var deployments = data;
 		var html = "";
 		deployments.forEach(function(deployment) {
@@ -155,7 +189,7 @@ function showDeployments() {
 				html += '<div class="m-0 mr-3 text-white"><small><i class="fas fa-certificate"></i> By Cloud Template</small></div>';
 			}
             if (deployment.expense !== undefined || deployment.expense != null) {
-				html += '<div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> ' + parseInt(deployment.expense.totalExpense) + '</small></div>';	
+				html += '<div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> ' + numberWithCommas(parseInt(deployment.expense.totalExpense)) + '</small></div>';	
 			} else {
 				html += '<div class="m-0 mr-3 text-white"><small><i class="fas fa-money-bill-alt"></i> 0</small></div>';
 			}
@@ -216,6 +250,36 @@ function showDeployments() {
 	});
 };
 
+function getAggregateMetrics() {
+	getApi("/aggregator/api/metrics/deployment/aggregate/projects/" + currProjectId, function(data) {
+		var ins = 0;
+		var cpu = 0;
+		var mem = 0;
+		var stg = 0;
+		data.metrics.forEach(function(metric) {
+			switch (metric.name) {
+				case "instances":
+					ins = metric.value;
+					break;
+				case "cpu":
+					cpu = metric.value;
+					break;
+				case "memory":
+					mem = metric.value;
+					break;
+				case "storage":
+					stg = metric.value;
+					break;
+			}
+		});
+		$("#opera-agg-ins-metric").html(numberWithCommas(ins));
+		$("#opera-agg-cpu-metric").html(numberWithCommas(cpu));
+		$("#opera-agg-mem-metric").html(numberWithCommas(parseInt(mem / 1024)));
+		$("#opera-agg-stg-metric").html(numberWithCommas(stg));
+	});
+};
+
+// User
 function getUserDetail() {
 	getAuthApi("/user", function(data) {
 		if (data.displayName !== undefined && data.displayName != null && data.displayName != "") {
