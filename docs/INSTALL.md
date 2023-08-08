@@ -84,11 +84,11 @@ $ docker build --no-cache -t opera/fastapi:latest -f fastapi.docker .
 마지막에 "." 으로 끝나는 커맨드와 아닌것이 있으므로 잘 구분해서 입력합니다.
 
 ```
+$ docker build --no-cache -t opera/nginx:latest ./services/nginx
 $ docker build --no-cache -t opera/redis:latest ./services/redis
 $ docker build --no-cache -t opera/auth:latest -f ./services/auth/Dockerfile .
 $ docker build --no-cache -t opera/api:latest -f ./services/api/Dockerfile .
-$ docker build --no-cache -t opera/inv:latest -f ./services/inv/Dockerfile .
-$ docker build --no-cache -t opera/nginx:latest ./services/nginx
+$ docker build --no-cache -t opera/app:latest -f ./services/app/Dockerfile .
 ```
 
 ## 3. 컨테이너 실행
@@ -103,6 +103,12 @@ $ docker build --no-cache -t opera/nginx:latest ./services/nginx
 $ docker run --name redis --network opera -d opera/redis:latest
 ```
 
+아래에서 설명할 코드를 통한 직접 실행을 지원하려면 다음과 같이 실행합니다.
+
+```
+$ docker run --name redis --network opera -p 6379:6379 -d opera/redis:latest
+```
+
 #### 1.2) Auth & API 서비스 모듈
 
 기본 실행 환경이라면 다음과 같이 실행합니다.
@@ -110,7 +116,7 @@ $ docker run --name redis --network opera -d opera/redis:latest
 ```
 $ docker run --name auth --network opera -d opera/auth:latest
 $ docker run --name api --network opera -d opera/api:latest
-$ docker run --name inv --network opera -d opera/inv:latest
+$ docker run --name app --network opera -d opera/app:latest
 ```
 
 Auth와 API 서비스 모듈의 Swagger를 직접 확인하기 위한 설정이 필요하다면 다음과 같이 실행합니다
@@ -118,13 +124,24 @@ Auth와 API 서비스 모듈의 Swagger를 직접 확인하기 위한 설정이 
 ```
 $ docker run --name auth --network opera -p 8081:8081 -d opera/auth:latest
 $ docker run --name api --network opera -p 8082:8082 -d opera/api:latest
-$ docker run --name inv --network opera -p 8082:8082 -d opera/inv:latest
+$ docker run --name app --network opera -p 8083:8083 -d opera/app:latest
+```
+
+코드를 통한 직접 실행은 다음과 같이 실행합니다.
+
+```
+$ python server.py -m auth
+$ python server.py -m api
+$ python server.py -m app
 ```
 
 Swagger는 다음 URL을 통해 확인 가능합니다
 
  - Auth Swagger = http://{{portalHostName}}:8081/docs
  - API Swagger = http://{{portalHostName}}:8082/docs
+ - APP Swagger = http://{{portalHostName}}:8083/docs
+
+**호스트 설정이 있다면 docker 기반과 직접 코드실행을 섞어서 실행도 가능합니다.**
 
 ### 2) Frontend 서비스 모듈 실행
 
@@ -134,7 +151,7 @@ Swagger는 다음 URL을 통해 확인 가능합니다
 docker run --name nginx --network opera -p 443:443 -d opera/nginx:latest
 ```
 
-Frontend App을 수정할 수 있도록 실행하려면 다음과 같이 실행합니다.
+Frontend App을 런타임에 수정할 수 있도록 실행하려면 다음과 같이 실행합니다.
 
 ```
 docker run --name nginx --network opera -p 443:443 -v "{{OPERA_NGINX_CONF_FILE_PATH}}:/etc/nginx/nginx.conf" -v "{{OPERA_NGINX_WEBROOT_PATH}}:/opt/webroot" -d opera/nginx:latest
