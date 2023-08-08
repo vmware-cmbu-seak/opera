@@ -37,20 +37,14 @@
 
 </head>
 
-<body>
-    
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/static/vendor/jquery-cookie/jquery-cookie.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/js/opera.js"></script>
+<body id="page-top">
     
     <div id="wrapper">
         
         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="opera-menu">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <a class="sidebar-brand d-flex flex-column my-3 align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon">
-                    <img src="/static/img/opera_logo.png" height="50">
+                    <img src="/static/img/opera_logo.png" height="60">
                 </div>
                 <div class="sidebar-brand-text mx-3">Opera</div>
             </a>
@@ -381,7 +375,25 @@
                                                 </div>
                                             </div>
                                             <div class="collapse" id="resource-vm-1">
-                                                <div class="card-body p-1">VM 1 정보</div>
+                                                <div class="card-body p-1">
+                                                    <div class="row d-flex flex-row align-items-center justify-content-center">
+                                                        <div class="chart-area"><canvas id="opera-vm-metric-cpu"></canvas></div>
+                                                        <div class="chart-area"><canvas id="opera-vm-metric-mem"></canvas></div>
+                                                        <div class="chart-area"><canvas id="opera-vm-metric-vol"></canvas></div>
+                                                        <div class="chart-area"><canvas id="opera-vm-metric-net"></canvas></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="table-responsive m-2 px-2">
+                                                            <table id="opera-vm-detail" class="table table-bordered" width="100%" cellspacing="0">
+                                                                <tbody>
+                                                                    <tr><th>CPU</th><td>2</td></tr>
+                                                                    <tr><th>Memory</th><td>4096 GB</td></tr>
+                                                                    <tr><th>Volume 1</th><td>50</td></tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- VM 3 -->
@@ -577,6 +589,19 @@
             </div>
         </div>
     </div>
+    
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/static/vendor/jquery-cookie/jquery-cookie.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+    <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    
+    <script src="/static/js/opera-common.js"></script>
+    <script src="/static/js/opera-base.js"></script>
+    <script src="/static/js/opera-deployment.js"></script>
+    <script src="/static/js/opera.js"></script>
     
 </body>
 
