@@ -93,8 +93,6 @@ $ docker build --no-cache -t opera/app:latest -f ./services/app/Dockerfile .
 
 ## 3. 컨테이너 실행
 
-모든 과정은 **opera/src** 디렉토리에서 수행합니다.
-
 ### 1) Backend 서비스 모듈 실행
 
 #### 1.1) Redis 캐시 서비스 모듈
@@ -127,7 +125,7 @@ $ docker run --name api --network opera -p 8082:8082 -d opera/api:latest
 $ docker run --name app --network opera -p 8083:8083 -d opera/app:latest
 ```
 
-코드를 통한 직접 실행은 다음과 같이 실행합니다.
+코드를 통한 직접 실행은 다음과 같이 실행하며, 모든 과정은 **opera/src** 디렉토리에서 수행합니다.
 
 ```
 $ python server.py -m auth
