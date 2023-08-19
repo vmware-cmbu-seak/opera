@@ -86,6 +86,7 @@ $ docker build --no-cache -t opera/fastapi:latest -f fastapi.docker .
 ```
 $ docker build --no-cache -t opera/nginx:latest ./services/nginx
 $ docker build --no-cache -t opera/redis:latest ./services/redis
+$ docker build --no-cache -t opera/psql:latest ./services/psql
 $ docker build --no-cache -t opera/auth:latest -f ./services/auth/Dockerfile .
 $ docker build --no-cache -t opera/api:latest -f ./services/api/Dockerfile .
 $ docker build --no-cache -t opera/app:latest -f ./services/app/Dockerfile .
@@ -94,6 +95,18 @@ $ docker build --no-cache -t opera/app:latest -f ./services/app/Dockerfile .
 ## 3. 컨테이너 실행
 
 ### 1) Backend 서비스 모듈 실행
+
+#### 1.1) PostgreSQL 서비스 모듈
+
+```
+$ docker run --name psql --network opera -d opera/psql:latest
+```
+
+아래에서 설명할 코드를 통한 직접 실행을 지원하려면 다음과 같이 실행합니다.
+
+```
+$ docker run --name psql --network opera -p 5432:5432 -d opera/psql:latest
+```
 
 #### 1.1) Redis 캐시 서비스 모듈
 

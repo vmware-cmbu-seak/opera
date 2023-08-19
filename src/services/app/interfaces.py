@@ -34,3 +34,7 @@ application = App(config)
 @app.get('/deployments')
 async def getDeploymentList(request:Request, projectId:Optional[str] = None):
     return await application.getDeploymentList(request, projectId)
+
+@app.get('/resources')
+async def getResourceList(request:Request, projectId:Optional[str] = None):
+    return await application.getResourceList(request, projectId)

@@ -55,12 +55,35 @@ class App(UserAuth):
         }
         async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), raise_for_status=True) as s:
             firstPage = await self.get(s, url, headers)
-            count, result = (firstPage['totalPages'] - 1), firstPage['content']
+            count, top, result = (firstPage['totalPages'] - 1), firstPage['size'], firstPage['content']
             if count:
                 with TaskOperator() as to:
                     for _ in range(count):
                         skip += top
                         url = f'https://{endpoint}/deployment/api/deployments?expand=resources,catalog&$skip={skip}&$top={top}'
+                        if projectId: url = f'{url}&projects={projectId}'
+                        to.do(self.get(s, url, headers))
+                    remainPages = await to.wait()
+                for page in remainPages: result += page['content']
+            return result
+    
+    async def getResourceList(self, request:Request, projectId:Optional[str] = None):
+        endpoint, token = await self.checkApi(request)
+        skip, top = 0, PAGING_TOP
+        url = f'https://{endpoint}/deployment/api/resources?$skip={skip}&$top={top}'
+        if projectId: url = f'{url}&projects={projectId}'
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json'
+        }
+        async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), raise_for_status=True) as s:
+            firstPage = await self.get(s, url, headers)
+            count, top, result = (firstPage['totalPages'] - 1), firstPage['size'], firstPage['content']
+            if count:
+                with TaskOperator() as to:
+                    for _ in range(count):
+                        skip += top
+                        url = f'https://{endpoint}/deployment/api/resources?$skip={skip}&$top={top}'
                         if projectId: url = f'{url}&projects={projectId}'
                         to.do(self.get(s, url, headers))
                     remainPages = await to.wait()

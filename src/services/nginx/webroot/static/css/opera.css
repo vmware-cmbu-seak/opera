@@ -1,32 +1,413 @@
-
-#opera-wait-bg {
-	z-index: 2100;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	color: #e6f7ff;
-	background: #ffffff;
+/* Base */
+body {
+	background: #3f4d5f;
+	color: #acbac3;
 }
 
-#opera-wait-icon {
-	z-index: 2105;
-	position: absolute;
+a {
+	color: #acbac3;
+}
+
+a:hover {
+	color: #ffffff;
+	cursor: pointer;
+}
+
+a:fucus {
+	color: #ffffff;
+}
+
+table {
+	background: #1b2a31;
+}
+
+.table-bordered {
+    border: 1px solid #384359;
+}
+
+.table-hover tbody tr:hover {
+	background: #17242b;
+	color: #ffffff;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #384359;
+}
+
+textarea {
+	height: 80px;
+	min-height: 50px;
+	background: #1b2a31;
+	border: 1px solid #384359;
+	color: #acbac3;
+	resize: vertical;
+	scrollbar-width: thin;
+	scrollbar-color: #121c21 #3f4d5f;
+}
+
+textarea::-webkit-scrollbar {
+	background-color: #121c21;
+	border: 1px solid #21333b;
+}
+
+textarea::-webkit-scrollbar-thumb {
+	background-color: #4aaed9;
+}
+
+textarea::-webkit-resizer {
+	background-color: #3f4d5f;
+}
+
+textarea:hover {
+	background: #17242b;
+ 	color: #ffffff;
+ 	outline: none;
+}
+
+textarea:focus {
+	border: 1px solid #4aaed9;
+ 	color: #ffffff;
+ 	outline: none;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #acbac3;
+}
+
+
+.bg-primary,
+.bg-secondary,
+.bg-success,
+.bg-info,
+.bg-warning,
+.bg-danger,
+.bg-light,
+.bg-dark {
+	color: #ffffff;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-danger,
+.btn-light,
+.btn-dark {
+	color: #ffffff;
+}
+
+.btn-opera-primary {
+    color: #acbac3;
+    background-color: #121c21;
+    border-color: #384359;
+}
+
+.btn-opera-secondary {
+	color: #acbac3;
+    background-color: #3f4d5f;
+    border-color: #384359;
+}
+
+.close {
+  color: #acbac3;
+}
+
+.close:hover {
+  color: #ffffff;
+}
+
+#wrapper #content-wrapper {
+    background-color: #3f4d5f;
+    color: #acbac3;
+}
+
+/* Left Menu */
+.sidebar {
+	background: #121c21;
+}
+
+.sidebar #opera-left-menu-toggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  background: #acbac3;
+}
+
+.sidebar #opera-left-menu-toggle::after {
+  font-weight: 900;
+  content: '\f104';
+  font-family: 'Font Awesome 5 Free';
+  margin-right: 0.1rem;
+}
+
+.sidebar #opera-left-menu-toggle:hover {
+  text-decoration: none;
+  background: #3f4d5f;
+}
+
+.sidebar #opera-left-menu-toggle:focus {
+  outline: none;
+}
+
+.sidebar.toggled #opera-left-menu-toggle::after {
+  content: '\f105';
+  font-family: 'Font Awesome 5 Free';
+  margin-left: 0.25rem;
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item, .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
+    color: #acbac3;
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item:hover,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover {
+  background-color: #3f4d5f;
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item.active,
+.sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.nav-item.active a {
+	color: #ffffff;
+}
+
+/* Top Menu */
+.topbar {
+	background: #17242b;
+}
+
+.topbar .dropdown-list {
+	width: 100% !important;
+}
+
+.topbar #opera-events,
+.topbar #opera-messages {
+	width: 20rem !important;
+}
+
+.topbar .dropdown-list .dropdown-header,
+.topbar .dropdown-list .dropdown-header {
+    background-color: #121c21;
+    border: 1px solid #384359;
+    color: #acbac3;
+}
+
+.topbar .dropdown-list .dropdown-item,
+.topbar .dropdown-list .dropdown-item {
+    border-left: 1px solid #384359;
+    border-right: 1px solid #384359;
+    border-bottom: 1px solid #384359;
+}
+
+.topbar #opera-toggle-top {
+  height: 2.5rem;
+  width: 2.5rem;
+  background: #121c21;
+}
+
+.topbar #opera-toggle-top:hover {
+  background: #3f4d5f;
+}
+
+.topbar #opera-toggle-top:active {
+  background: #3f4d5f;
+}
+
+.scroll-to-top {
+	background: rgb(18, 28, 33, 0.5);
+}
+
+.scroll-to-top:hover {
+	background: #121c21;
+}
+
+.scroll-to-top:hover {
+	background: #121c21;
+}
+
+/* Items */
+.btn {
+	border-color: #384359;
+    color: #acbac3;
+}
+
+.btn:hover {
+	border-color: #4aaed9;
+ 	color: #ffffff;
+}
+
+.btn:focus, .btn.focus {
+ 	box-shadow: none;
+}
+
+.card {
+	background: #21333b;
+	border-color: #384359;
+	color: #acbac3;
+}
+
+.card-header {
+	background: #121c21;
+	border-color: #384359;
+}
+
+.dropdown-menu {
+	background: #21333b;
+	border-color: #384359;
+}
+
+.dropdown-item {
+	color: #acbac3;
+}
+
+.dropdown-item:hover {
+	background: #3f4d5f;
+	color: #ffffff;
+}
+
+.dropdown-item.active {
+	background: #17242b;
+	color: #ffffff;
+	cursor: default;
+}
+
+.modal-content {
+    background-color: #21333b;
+    border: #384359;
+}
+
+.modal-header {
+	background-color: #121c21;
+	border-bottom: 1px solid #384359;
+}
+
+.modal-footer {
+    border-top: 1px solid #384359;
+}
+
+/* Opera Layout */
+#opera-left-menu {
+	z-index: 1050;
+	position: fixed;
 	top: 0px;
 	left: 0px;
-	width: 100%;
-	height: 100%;
-	background: none;
+}
+
+#opera-top-menu {
+	z-index: 1040;
+	position: fixed;
+	top: 0px;
+	left: inherited;
+	width: calc(100% - 16rem);
+}
+
+.opera-top-menu-expand {
+	width: calc(100% - 6.5rem) !important;
+}
+
+#opera-curr-region,
+#opera-curr-project {
+	min-width: 8rem !important;
 }
 
 #opera-wait-spin {
-	z-index: 2110;
+	z-index: 1100;
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	width: 100%;
 	height: 100%;
-	color: #0033cc;
-	background: none;
+	background: #17242b;
+	color: #acbac3;
+}
+
+.opera-remote-console {
+	width: 25%;
+	margin: 0;
+	padding: 0;
+}
+
+.opera-detail {
+	width: 75%;
+	margin: 0;
+	padding: 0;
+}
+
+.opera-rsc-toggle {
+	color: #ffffff;
+}
+
+.opera-rsc-toggle:hover {
+	color: #121c21;
+}
+
+.opera-rsc-column .opera-remote-console {
+	width: 100%;
+	margin: 1em 0;
+	padding: 0;
+}
+
+.opera-rsc-column .opera-detail {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.opera-metric-cpu {
+	width: 25%;
+	padding: 0 0.5em 0 0;
+}
+
+.opera-metric-mem {
+	width: 25%;
+	padding: 0 0.5em;
+}
+
+.opera-metric-net {
+	width: 25%;
+	padding: 0 0.5em;
+}
+
+.opera-metric-iops {
+	width: 25%;
+	padding: 0 0 0 0.5em;
+}
+
+.opera-rsc-column .opera-metric-cpu {
+	width: 50%;
+	padding: 0 0.5em 0.5em 0;
+}
+
+.opera-rsc-column .opera-metric-mem {
+	width: 50%;
+	padding: 0 0 0.5em 0.5em;
+}
+
+.opera-rsc-column .opera-metric-net {
+	width: 50%;
+	padding: 0.5em 0.5em 0 0;
+}
+
+.opera-rsc-column .opera-metric-iops {
+	width: 50%;
+	padding: 0.5em 0 0 0.5em;
+}
+
+.opera-rsc-props > tr > th {
+	text-align: center;
+}
+
+#opera-gui-console {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }

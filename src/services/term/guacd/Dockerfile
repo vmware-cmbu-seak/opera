@@ -1,0 +1,1 @@
+FROM guacamole/guacd:latest

@@ -67,6 +67,12 @@ body {
   color: #858796;
   text-align: left;
   background-color: #fff;
+  -ms-overflow-style: none; /* IE */
+  scrollbar-width: none; /* FireFox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome */
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -2978,7 +2984,7 @@ input[type="button"].btn-block {
   position: relative;
   height: 0;
   overflow: hidden;
-  transition: height 0.15s ease;
+  transition: height 0.3s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -10171,19 +10177,6 @@ a:focus {
   height: 4.375rem;
 }
 
-.topbar #opera-menu-toggle-top {
-  height: 2.5rem;
-  width: 2.5rem;
-}
-
-.topbar #opera-menu-toggle-top:hover {
-  background-color: #eaecf4;
-}
-
-.topbar #opera-menu-toggle-top:active {
-  background-color: #dddfeb;
-}
-
 .topbar .navbar-search {
   width: 25rem;
 }
@@ -10410,38 +10403,9 @@ a:focus {
   font-weight: 700;
 }
 
-.sidebar #opera-menu-toggle {
-  width: 2.5rem;
-  height: 2.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-
-.sidebar #opera-menu-toggle::after {
-  font-weight: 900;
-  content: '\f104';
-  font-family: 'Font Awesome 5 Free';
-  margin-right: 0.1rem;
-}
-
-.sidebar #opera-menu-toggle:hover {
-  text-decoration: none;
-}
-
-.sidebar #opera-menu-toggle:focus {
-  outline: none;
-}
-
 .sidebar.toggled {
   width: 0 !important;
   overflow: hidden;
-}
-
-.sidebar.toggled #opera-menu-toggle::after {
-  content: '\f105';
-  font-family: 'Font Awesome 5 Free';
-  margin-left: 0.25rem;
 }
 
 .sidebar.toggled .sidebar-card {
@@ -10665,15 +10629,15 @@ a:focus {
   color: #6e707e;
 }
 
-.sidebar-light #opera-menu-toggle {
+.sidebar-light #sidebarToggle {
   background-color: #eaecf4;
 }
 
-.sidebar-light #opera-menu-toggle::after {
+.sidebar-light #sidebarToggle::after {
   color: #b7b9cc;
 }
 
-.sidebar-light #opera-menu-toggle:hover {
+.sidebar-light #sidebarToggle:hover {
   background-color: #dddfeb;
 }
 
@@ -10717,19 +10681,19 @@ a:focus {
   color: #fff;
 }
 
-.sidebar-dark #opera-menu-toggle {
+.sidebar-dark #sidebarToggle {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.sidebar-dark #opera-menu-toggle::after {
+.sidebar-dark #sidebarToggle::after {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.sidebar-dark #opera-menu-toggle:hover {
+.sidebar-dark #sidebarToggle:hover {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
-.sidebar-dark.toggled #opera-menu-toggle::after {
+.sidebar-dark.toggled #sidebarToggle::after {
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -10813,7 +10777,6 @@ a:focus {
   font-weight: 900;
   content: '\f107';
   font-family: 'Font Awesome 5 Free';
-  color: #d1d3e2;
 }
 
 .card .card-header[data-toggle="collapse"].collapsed {
