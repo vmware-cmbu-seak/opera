@@ -17,7 +17,7 @@ from common import getConfig
 def handler(module):
     config = getConfig('opera.conf')
     uvicorn.run(
-        'interfaces:app',
+        'routes:app',
         host='0.0.0.0',
         port=int(config[module]['hostport']),
         reload=True if config['default']['stage'] == 'dev' else False,

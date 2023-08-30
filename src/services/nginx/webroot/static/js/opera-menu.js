@@ -1,13 +1,16 @@
 // Top Menu Control ////////////////////////////////////////////////////////////////////////////////////////////
 function showUserInfo (user) {
+	showWaitPanel();
 	user.detail((data) => {
 		if (data.displayName !== undefined && data.displayName != null && data.displayName != "") $("#opera-user").html(data.displayName);
 		else $("#opera-user").html(data.userName);
 	});
 	user.getRegionClient(showRegions);
+	hideWaitPanel();
 };
 
 function showRegions (region) {
+	showWaitPanel();
 	Region = region;
 	let html = "";
 	region.active.forEach((endpoint) => {
@@ -28,9 +31,11 @@ function showRegions (region) {
 	$(".opera-region").click((event) => {
 		region.setCurrent($(event.target).attr("oid"), showRegions);
 	});
+	hideWaitPanel();
 };
 
 function showProjects (project) {
+	showWaitPanel();
 	Project = project;
 	let html = "";
 	project.all.forEach((data) => {
@@ -42,13 +47,16 @@ function showProjects (project) {
 		}
 	});
 	$("#opera-projects").html('<h6 class="dropdown-header">프로젝트 선택</h6>' + html);
-	Deployment = project.getDeploymentClient((data) => {});
-	Resource = project.getResourceClient((data) => {});
+	showWaitPanel();
+	Deployment = project.getDeploymentClient((data) => { hideWaitPanel(); });
+	showWaitPanel();
+	Resource = project.getResourceClient((data) => { hideWaitPanel(); });
 	showPage($("#opera-init-page"));
 	
 	$(".opera-project").click((event) => {
 		project.setCurrent($(event.target).attr("oid"), showProjects);
 	});
+	hideWaitPanel();
 }
 
 // Left Menu Control ///////////////////////////////////////////////////////////////////////////////////////////

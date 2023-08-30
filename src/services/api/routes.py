@@ -17,14 +17,23 @@ from fastapi import FastAPI, Request
 from common import getConfig, Logger
 from views import API
 
-
 #===============================================================================
 # SingleTone
 #===============================================================================
 config = getConfig('opera.conf')
-app = FastAPI(title='Api Module')
 Logger.register(config)
-api = API(config)
+app = FastAPI(title='Api Module')
+view = API(config)
+
+
+@app.on_event('startup')
+async def runStartUp():
+    await view.startup()
+
+
+@app.on_event('shutdown')
+async def runShutDown():
+    await view.shutdown()
 
 
 #===============================================================================
@@ -32,24 +41,24 @@ api = API(config)
 #===============================================================================
 @app.get('/{apiPath:path}')
 async def get_api(request:Request, apiPath:str):
-    return await api.getApi(request, apiPath)
+    return await view.getApi(request, apiPath)
 
 
 @app.post('/{apiPath:path}')
 async def post_api(request:Request, apiPath:str):
-    return await api.postApi(request, apiPath)
+    return await view.postApi(request, apiPath)
 
 
 @app.put('/{apiPath:path}')
 async def put_api(request:Request, apiPath:str):
-    return await api.putApi(request, apiPath)
+    return await view.putApi(request, apiPath)
 
 
 @app.patch('/{apiPath:path}')
 async def patch_api(request:Request, apiPath:str):
-    return await api.patchApi(request, apiPath)
+    return await view.patchApi(request, apiPath)
 
 
 @app.delete('/{apiPath:path}')
 async def delete_api(request:Request, apiPath:str):
-    return await api.deleteApi(request, apiPath)
+    return await view.deleteApi(request, apiPath)

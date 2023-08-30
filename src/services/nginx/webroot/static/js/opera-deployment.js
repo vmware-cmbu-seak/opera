@@ -7,9 +7,11 @@ function showDeploymentPage() {
 	`);
 	
 	showDeployments();
+	hideWaitPanel();
 };
 
 function showDeployments() {
+	showWaitPanel();
 	var html = "";
 	Deployment.all.forEach((deployment) => {
 		var depStatus = '';
@@ -80,7 +82,7 @@ function showDeployments() {
     <div id="opera-rsc-` + resource.id + `" class="collapse">
         <div class="card-body p-2">
             <div class="row d-flex flex-row align-items-center justify-content-between m-0 p-0 mb-2">
-                <div class="opera-remote-console d-flex align-items-center justify-content-center">
+                <div class="opera-remote-console d-flex align-items-center justify-content-center" onclick="openConsole($(this));">
                     <i class="fas fa-desktop fa-8x"></i>
                 </div>
                 <div class="opera-detail">

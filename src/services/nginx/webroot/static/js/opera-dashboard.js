@@ -58,10 +58,11 @@ function showDashboardPage() {
 	`);
 	
 	showAggregateMetrics();
+	hideWaitPanel();
 };
 
 function showAggregateMetrics() {
-	
+	showWaitPanel();
 	Region.Api.get("/aggregator/api/metrics/deployment/aggregate/projects/" + Project.current, (data) => {
 		let ins = 0;
 		let cpu = 0;

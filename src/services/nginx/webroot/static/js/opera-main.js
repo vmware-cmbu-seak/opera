@@ -45,9 +45,6 @@
 		event.preventDefault();
 	});
 	
-	//checkUser();
-	hideWaitPanelWhenDev();
-	
 	User = new Opera.UserClient((user) => {
 		showUserInfo(user);
 	});

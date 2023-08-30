@@ -13,17 +13,10 @@
 #===============================================================================
 # Import
 #===============================================================================
-import urllib3
-import asyncio
+import sys
 import logging
 import datetime
 import configparser
-
-
-#===============================================================================
-# Setting
-#===============================================================================
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 #===============================================================================
@@ -42,14 +35,19 @@ def getConfig(path):
 class Logger:
     
     @classmethod
-    def register(cls, config): setEnvironment('LOG', Logger(config['default']['stage']))
+    def register(cls, config, name='uvicorn.default'): setEnvironment('LOG', Logger(config['default']['stage'], name))
     
-    def __init__(self, stage):
-        self._logger = logging.getLogger(name='uvicorn.default')
+    def __init__(self, stage, name):
+        if name: self._logger = logging.getLogger(name=name)
+        else:
+            self._logger = logging.getLogger()
+            self._logger.addHandler(logging.StreamHandler(sys.stdout))
         if stage == 'dev': self._logger.setLevel(logging.DEBUG)
         elif stage == 'prod': self._logger.setLevel(logging.INFO)
 
     def _formatter_(self, message): return f'[{datetime.datetime.now()}] {message}'
+    
+    def KEYVAL(self, key, val): return f' - {key:<24} : {val}'
     
     def DEBUG(self, message): self._logger.debug(self._formatter_(message))
 
@@ -60,19 +58,3 @@ class Logger:
     def ERROR(self, message): self._logger.error(self._formatter_(message))
 
     def CRITICAL(self, message): self._logger.critical(self._formatter_(message))
-
-
-class TaskOperator:
-    
-    def __init__(self): self._task_operator_tasks = []
-
-    def __enter__(self): return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb): pass
-    
-    def do(self, ref):
-        self._task_operator_tasks.append(ref)
-        return self
-    
-    async def wait(self):
-        return await asyncio.gather(*(self._task_operator_tasks))

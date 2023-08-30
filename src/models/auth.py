@@ -31,6 +31,8 @@ class Session(BaseModel):
     userId: Optional[str] = ''
     accessToken: Optional[str] = ''
     aaEndpoints: Optional[list[EndpointStatus]] = []
+    aoEndpoints: Optional[list[EndpointStatus]] = []
+    aolEndpoints: Optional[list[EndpointStatus]] = []
 
     
 class User(BaseModel):

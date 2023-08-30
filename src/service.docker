@@ -1,5 +1,5 @@
 FROM python:latest
-RUN pip install --no-cache-dir requests fastapi uvicorn aiohttp asyncio redis 
+RUN pip install --no-cache-dir fastapi uvicorn aiohttp asyncio requests psycopg psycopg-binary redis
 RUN mkdir -p /service
 WORKDIR /service
 ENV SERVICE_MODULE=""

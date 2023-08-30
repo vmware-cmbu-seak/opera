@@ -1,5 +1,5 @@
-FROM opera/fastapi:latest
+FROM dafne/service:latest
 COPY . .
 STOPSIGNAL SIGQUIT
-EXPOSE 8083
+EXPOSE 8093
 ENV SERVICE_MODULE="app"

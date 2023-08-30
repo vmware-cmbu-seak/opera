@@ -10,4 +10,5 @@
 @author: VMware Korea CMP TF
 '''
 
-from .auth import EndpointStatus, Session, User
+from .mgmt import MgmtInterface
+from .auth import UserInterface

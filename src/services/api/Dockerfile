@@ -1,5 +1,5 @@
-FROM opera/fastapi:latest
+FROM dafne/service:latest
 COPY . .
 STOPSIGNAL SIGQUIT
-EXPOSE 8082
+EXPOSE 8092
 ENV SERVICE_MODULE="api"

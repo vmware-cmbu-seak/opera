@@ -40,15 +40,21 @@ function timeFormat(tstamp) {
 	return "" + hour + ':' + minute + ':' + second;
 }
 
+var waitCount = 0;
+var hideDuration = 300;
+
 function showWaitPanel() {
+	waitCount += 1;
 	$("#opera-wait").show();
 };
 
 function hideWaitPanel() {
-	$("#opera-wait").hide(300);
+	if (waitCount > 0) waitCount -= 1;
+	if (!waitCount) $("#opera-wait").hide(hideDuration);
 };
 
 function hideWaitPanelWhenDev() {
+	waitCount = 0;
 	$("#opera-wait").hide();
 }
 
@@ -113,3 +119,10 @@ function drawMetricChart(dom, title, labels, data) {
 		}
 	});
 };
+
+function openConsole(dom) {
+	let resourceId = dom.parent().parent().parent().parent().attr("oid");
+	if (resourceId) {
+		window.open("/app/console?resourceId=" + resourceId, "_blank", "width=800,height=600,resizable=yes,titlebar=no,location=no,menubar=no,scrollbars=no,status=no,toobar=no");
+	}
+}

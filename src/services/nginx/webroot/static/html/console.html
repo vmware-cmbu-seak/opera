@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="utf-8">
@@ -10,7 +9,7 @@
     <meta name="author" content="">
 
     <title>Opera</title>
-    
+
     <link rel="apple-touch-icon" sizes="57x57" href="/static/img/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/static/img/favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/img/favicons/apple-icon-72x72.png">
@@ -26,6 +25,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicons/favicon-16x16.png">
     <link rel="manifest" href="/static/img/favicons/manifest.json">
+    
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/static/img/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -36,7 +36,6 @@
     <link href="/static/css/opera.css" rel="stylesheet">
 
 </head>
-
 <body id="main">
 
     <div id="opera-gui-console"></div>
@@ -44,14 +43,49 @@
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/static/vendor/jquery-cookie/jquery-cookie.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/vendor/chart.js/Chart.min.js"></script>
-    <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/static/vendor/guacamole/guacamole-common-js.min.js"></script>
-    
-    <script src="/static/js/opera-gui-console.js"></script>
-    
-</body>
 
+    <script>
+    (function($) {
+        
+        var token = "TOKEN_HERE";
+        var connectionId = "CONNECTION_ID_HERE";
+        var display = document.getElementById('opera-gui-console');
+        var tunnel = new Guacamole.WebSocketTunnel('/gui/websocket-tunnel');
+        var gui = new Guacamole.Client(tunnel);
+        
+        display.appendChild(gui.getDisplay().getElement());
+        
+        var data = "token=" + token;
+        data += "&GUAC_DATA_SOURCE=postgresql";
+        data += "&GUAC_ID=" + connectionId;
+        data += "&GUAC_TYPE=c";
+        data += "&GUAC_WIDTH=1024";
+        data += "&GUAC_HEIGHT=768";
+        data += "&GUAC_DPI=96";
+        data += "&GUAC_TIMEZONE=Asia%2FSeoul";
+        data += "&GUAC_AUDIO=audio%2FL8";
+        data += "&GUAC_AUDIO=audio%2FL16";
+        data += "&GUAC_IMAGE=image%2Fjpeg";
+        data += "&GUAC_IMAGE=image%2Fpng";
+        data += "&GUAC_IMAGE=image%2Fwebp";
+        
+        gui.connect(data);
+        gui.onerror = (error) => console.log(error.message);
+        window.onunload = () => gui.disconnect();
+        window.onresize = (event) => {
+            gui.sendSize(window.innerWidth, window.innerHeight);
+        };
+        
+        mouse = new Guacamole.Mouse(gui.getDisplay().getElement());
+        mouse.onmousemove = (mouseState) => { gui.sendMouseState(mouseState); }
+        
+        keyboard = new Guacamole.Keyboard(document);
+        keyboard.onkeydown = (keysym) => gui.sendKeyEvent(1, keysym);
+        keyboard.onkeyup = (keysym) => gui.sendKeyEvent(0, keysym);
+    
+    })(jQuery);
+    </script>
+
+</body>
 </html>

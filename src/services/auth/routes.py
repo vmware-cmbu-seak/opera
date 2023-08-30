@@ -19,14 +19,23 @@ from common import getConfig, Logger
 from models import Session, User
 from views import Auth
 
-
 #===============================================================================
 # SingleTone
 #===============================================================================
 config = getConfig('opera.conf')
-app = FastAPI(title='Auth Module')
 Logger.register(config)
-auth = Auth(config)
+app = FastAPI(title='Auth Module')
+view = Auth(config)
+
+
+@app.on_event('startup')
+async def runStartUp():
+    await view.startup()
+
+
+@app.on_event('shutdown')
+async def runShutDown():
+    await view.shutdown()
 
 
 #===============================================================================
@@ -34,14 +43,14 @@ auth = Auth(config)
 #===============================================================================
 @app.get('/login', response_class=RedirectResponse)
 async def login() -> RedirectResponse:
-    return RedirectResponse(url=auth.loginRedirectUrl())
+    return RedirectResponse(url=view.loginRedirectUrl())
 
 
 @app.get('/callback', response_class=RedirectResponse)
 async def callback(code:str, state:str, userstore:str) -> RedirectResponse:
     try:
-        session = await auth.callback(code, userstore)
-        response = RedirectResponse(url=auth.cmpMainUrl)
+        session = await view.callback(code, userstore)
+        response = RedirectResponse(url=view.vidm.cmp.mainUrl)
         response.set_cookie(key='CMP_SESSION_ID', value=session.id)
         response.set_cookie(key='CMP_ACCESS_TOKEN', value=session.accessToken)
         return response
@@ -50,19 +59,19 @@ async def callback(code:str, state:str, userstore:str) -> RedirectResponse:
 
 @app.get('/check')
 async def check(request:Request) -> Session:
-    try: return await auth.check(request)
+    try: return await view.check(request)
     except Exception as e: raise HTTPException(status_code=401, detail=f'session check is failed : {str(e)}')
 
 
 @app.get('/user')
 async def user(request:Request) -> User:
-    try: return await auth.user(request)
+    try: return await view.user(request)
     except Exception as e: raise HTTPException(status_code=401, detail=f'user check is failed : {str(e)}')
 
 
 @app.get('/logout', response_class=RedirectResponse)
 async def logout(request:Request) -> RedirectResponse:
-    response = RedirectResponse(url=await auth.logoutRedirectUrl(request))
+    response = RedirectResponse(url=await view.logoutRedirectUrl(request))
     response.set_cookie(key='CMP_SESSION_ID', value='')
     response.set_cookie(key='CMP_ACCESS_TOKEN', value='')
     return response

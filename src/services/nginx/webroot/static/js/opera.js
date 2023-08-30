@@ -90,7 +90,10 @@ Opera.RegionClient = function RegionClient(userClient, completeHandler) {
 		if (aaEndpoint.check) {
 			let result = Opera.Rest.get("/api/userprofile/api/branding/byservice/cloud_assembly", {"CMP-REGION-ENDPOINT": endpoint});
 			this.brand[endpoint] = result.content[0].serviceName;
-			if (!(this.current)) this.current = endpoint;
+			if (!(this.current)) {
+				this.current = endpoint;
+				$.cookie('CMP_REGION_ENDPOINT', endpoint);
+			}
 			this.all.push(endpoint);
 			this.active.push(endpoint);
 		} else {
@@ -103,6 +106,7 @@ Opera.RegionClient = function RegionClient(userClient, completeHandler) {
 	this.setCurrent = (endpoint, completeHandler) => {
 		if (this.active.indexOf(endpoint) < 0) throw "Opera.RegionClient.setCurrent(" + endpoint + ") : could not set current by region";
 		this.current = endpoint;
+		$.cookie('CMP_REGION_ENDPOINT', endpoint);
 		if (completeHandler) completeHandler(this);
 		return this.current;
 	};
@@ -113,13 +117,13 @@ Opera.RegionClient = function RegionClient(userClient, completeHandler) {
 	
 	this.Api = {
 		get: (url, asyncResultHandler, asyncErrorHandler) => {
-			return Opera.Rest.get("/api" + url, {"CMP-REGION-ENDPOINT": this.current}, asyncResultHandler, asyncErrorHandler);
+			return Opera.Rest.get("/api" + url, {}, asyncResultHandler, asyncErrorHandler);
 		}
 	};
 	
 	this.App = {
 		get: (url, asyncResultHandler, asyncErrorHandler) => {
-			return Opera.Rest.get("/app" + url, {"CMP-REGION-ENDPOINT": this.current}, asyncResultHandler, asyncErrorHandler);
+			return Opera.Rest.get("/app" + url, {}, asyncResultHandler, asyncErrorHandler);
 		}
 	};
 	

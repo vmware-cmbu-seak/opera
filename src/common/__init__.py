@@ -10,6 +10,6 @@
 @author: VMware Korea CMP TF
 '''
 
-from .constants import Timeout
-from .utils import setEnvironment, getConfig, Logger, TaskOperator
-from .modules import UserAuth
+from .constants import TimeString
+from .utils import setEnvironment, getConfig, Logger
+from .interfaces import TaskOperator, SyncRest, AsyncRest

@@ -14,27 +14,42 @@
 # Import
 #===============================================================================
 from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from typing import Optional
 from common import getConfig, Logger
 from views import App
-
 
 #===============================================================================
 # SingleTone
 #===============================================================================
 config = getConfig('opera.conf')
-app = FastAPI(title='App Module')
 Logger.register(config)
-application = App(config)
+app = FastAPI(title='App Module')
+view = App(config)
+
+
+@app.on_event('startup')
+async def runStartUp():
+    await view.startup()
+
+
+@app.on_event('shutdown')
+async def runShutDown():
+    await view.shutdown()
 
 
 #===============================================================================
 # Interfaces
 #===============================================================================
 @app.get('/deployments')
-async def getDeploymentList(request:Request, projectId:Optional[str] = None):
-    return await application.getDeploymentList(request, projectId)
+async def getDeploymentList(request:Request, projectId:Optional[str]=None) -> list:
+    return await view.getDeploymentList(request, projectId)
+
 
 @app.get('/resources')
-async def getResourceList(request:Request, projectId:Optional[str] = None):
-    return await application.getResourceList(request, projectId)
+async def getResourceList(request:Request, projectId:Optional[str]=None) -> list:
+    return await view.getResourceList(request, projectId)
+
+@app.get('/console', response_class=HTMLResponse)
+async def getConsolePage(request:Request, resourceId:str) -> HTMLResponse:
+    return await view.getConsole(request, resourceId)

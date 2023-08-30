@@ -14,40 +14,38 @@
 # Import
 #===============================================================================
 import json
-import redis.asyncio as redis
 from fastapi import Request, HTTPException
-from .constants import Timeout
+from .mgmt import MgmtInterface
+from common import TimeString
 from models import Session
+from drivers import Redis
 
 
 #===============================================================================
 # Implement
 #===============================================================================
-class UserAuth:
+class UserInterface(MgmtInterface):
     
     def __init__(self, config):
+        self.timeoutSession = TimeString.str2int(config['cmp']['timeout_session'])
+        self.timeoutToken = TimeString.str2int(config['cmp']['timeout_token'])
         
-        self.redisHostName = config['redis']['hostname']
-        self.redisHostPort = config['redis']['hostport']
-        self.timeoutSession = Timeout.str2int(config['auth']['timeout_session'])
-        self.timeoutToken = Timeout.str2int(config['auth']['timeout_token'])
+        LOG.INFO('Init User Inteface')
+        LOG.INFO(LOG.KEYVAL('timeoutSession', self.timeoutSession))
+        LOG.INFO(LOG.KEYVAL('timeoutToken', self.timeoutToken))
         
-        LOG.INFO('1. CONFIGS')
-        LOG.INFO(f' - redisHostName        : {self.redisHostName}')
-        LOG.INFO(f' - redisHostPort        : {self.redisHostPort}')
-        LOG.INFO(f' - timeoutSession       : {self.timeoutSession}')
-        LOG.INFO(f' - timeoutToken         : {self.timeoutToken}')
-        
-        LOG.INFO('2. CACHE CONNECTION')
-        try:
-            self.sessions = redis.Redis(host=self.redisHostName, port=int(self.redisHostPort), db=0)
-            LOG.INFO(f' - {self.redisHostName}:{self.redisHostPort}/sessions')
-            self.tokens = redis.Redis(host=self.redisHostName, port=int(self.redisHostPort), db=2)
-            LOG.INFO(f' - {self.redisHostName}:{self.redisHostPort}/tokens')
-        except Exception as e: raise e
+        MgmtInterface.__init__(self, config)
+    
+    async def startup(self):
+        await MgmtInterface.startup(self, {
+            'sessions': (Redis, '/redis/sessions'),
+            'tokens': (Redis, '/redis/tokens')
+        })
+    
+    async def shutdown(self): pass
 
     async def __checkSession__(self, sessionId, accessToken) -> Session:
-        async with self.sessions.pipeline(transaction=True) as pipe:
+        async with self.sessions.pipeline() as pipe:
             value, _ = await (pipe.get(sessionId).expire(sessionId, self.timeoutSession).execute())
         if value:
             session = Session(**json.loads(value.decode('utf-8')))
@@ -56,7 +54,7 @@ class UserAuth:
         raise Exception(f'could not find session[{sessionId}]')
 
     async def __checkToken__(self, userId) -> dict:
-        async with self.tokens.pipeline(transaction=True) as pipe:
+        async with self.tokens.pipeline() as pipe:
             value, _ = await (pipe.get(userId).expire(userId, self.timeoutToken).execute())
         if value: return json.loads(value.decode('utf-8'))
         Exception(f'could not find tokens by user[{userId}]')
@@ -79,7 +77,7 @@ class UserAuth:
             return await self.__checkSession__(cookies['CMP_SESSION_ID'], cookies['CMP_ACCESS_TOKEN'])
         raise Exception(f'could not find session information')
     
-    async def checkApi(self, request:Request) -> (str, str):
+    async def checkApi(self, request:Request) -> (str, str, str):
         try:
             endpoint = self.checkRegionEndpoint(request)
             session = await self.checkSession(request)
@@ -87,5 +85,4 @@ class UserAuth:
         except Exception as e: raise HTTPException(status_code=401, detail=f'could not find session, tokens or endpoint : {str(e)}')
         if endpoint in tokens: token = tokens[endpoint]
         else: raise HTTPException(status_code=403, detail=f'could not find endpoint[{endpoint}] in tokens')
-        return endpoint, token
-    
+        return session, endpoint, token
