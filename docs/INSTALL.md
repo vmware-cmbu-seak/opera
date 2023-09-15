@@ -46,11 +46,11 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 > 설정 메�
  - vidm > hostname : VIDM의 FQDN 주소를 입력합니다
  - vidm > client_key : VIDM에서 생성된 공유 암호를 입력합니다
 
-<figure class="half">
-	<a href="#"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-1.png?raw=true" width="50%"></a>
-	<a href="#"><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-2.png?raw=true" width="50%"></a>
-	<figcaption>2개이미지.</figcaption>
-</figure>
+<p align="center">
+	<img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-1.png?raw=true" align="center" width="45%">
+	<img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-2.png?raw=true" align="center" width="45%">
+	<figcaption align="center">2개 이미지 띄우기</figcaption>
+</p>
 
 ### 7) Docker 환경 설정
 
