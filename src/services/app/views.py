@@ -212,9 +212,6 @@ class App(UserInterface):
             port = 3389
         else: raise Exception('unsupport os type')
         
-        resourceAddr = 'gate.vmkloud.com'
-        port = 8922
-        
         async with self.gui.session() as s:
             async with self.guiConsoles.cursor() as c:
                 try: await s.getUser(userId)
