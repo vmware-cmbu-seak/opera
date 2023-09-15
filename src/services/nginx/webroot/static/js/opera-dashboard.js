@@ -63,7 +63,8 @@ function showDashboardPage() {
 
 function showAggregateMetrics() {
 	showWaitPanel();
-	Region.Api.get("/aggregator/api/metrics/deployment/aggregate/projects/" + Project.current, (data) => {
+	Region.Api.get("/aggregator/api/metrics/deployment/aggregate/projects/" + Project.current,
+	(data) => {
 		let ins = 0;
 		let cpu = 0;
 		let mem = 0;
@@ -88,6 +89,13 @@ function showAggregateMetrics() {
 		$("#opera-agg-cpu-metric").html(numberWithCommas(cpu));
 		$("#opera-agg-mem-metric").html(numberWithCommas(parseInt(mem / 1024)));
 		$("#opera-agg-stg-metric").html(numberWithCommas(stg));
+		hideWaitPanel();
+	},
+	(jqXHR, textStatus, errorThrown) => {
+		$("#opera-agg-ins-metric").html("?");
+		$("#opera-agg-cpu-metric").html("?");
+		$("#opera-agg-mem-metric").html("?");
+		$("#opera-agg-stg-metric").html("?");
 		hideWaitPanel();
 	});
 };
