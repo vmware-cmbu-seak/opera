@@ -2,10 +2,26 @@ function showDeploymentPage() {
 	showWaitPanel();
 	$('#opera-page').html(`
 <div class="row">
+	<div class="col">
+		<div class="d-flex flex-row align-items-center justify-content-between">
+			<h1 style="color: #121c21;"><strong>Deployments</strong></h1>
+			<a href="#" class="btn btn-opera-primary" type="button" id="opera-deployment-refresh">
+				<i class="fas fa-sync-alt fa-sm fa-fw"></i>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row">
     <div id="opera-deployments" class="col-lg-12"></div>
 </div>
 	`);
-	
+	$("#opera-deployment-refresh").on("click", function(){
+		showWaitPanel();
+		Deployment.syncAll();
+		Resource.syncAll();
+		showPage($("#opera-deployment-page"));
+		hideWaitPanel();
+	});
 	showDeployments();
 	hideWaitPanel();
 };
@@ -38,11 +54,11 @@ function showDeployments() {
 				<i class="fas fa-bars fa-sm fa-fw"></i>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
-				<div class="dropdown-header">운영 작업</div>
-				<a class="dropdown-item" href="#">프로젝트 변경</a>
-				<a class="dropdown-item" href="#">소유자 변경</a>
-				<a class="dropdown-item" href="#">설정 변경</a>
-				<a class="dropdown-item" href="#">삭제</a>
+				<div class="dropdown-header">Actions</div>
+				<a class="dropdown-item" href="#">Change Project</a>
+				<a class="dropdown-item" href="#">Change Owner</a>
+				<a class="dropdown-item" href="#">Update</a>
+				<a class="dropdown-item" href="#">Delete</a>
 			</div>
 		</div>
 	</div>
@@ -66,11 +82,11 @@ function showDeployments() {
                     <i class="fas fa-fw fa-sm fa-bars"></i>
                 </a>
                 <div class="opera-rsc-actions dropdown-menu shadow animated--fade-in">
-                    <div class="dropdown-header">운영 작업</div>
-                    <a class="opera-rsc-action dropdown-item">전원 켬</a>
-                    <a class="opera-rsc-action dropdown-item">전원 끔</a>
-                    <a class="opera-rsc-action dropdown-item">스냅 샷</a>
-                    <a class="opera-rsc-action dropdown-item">삭제</a>
+                    <div class="dropdown-header">Actions</div>
+                    <a class="opera-rsc-action dropdown-item">Power On</a>
+                    <a class="opera-rsc-action dropdown-item">Power Off</a>
+                    <a class="opera-rsc-action dropdown-item">Create Snap-Shop</a>
+                    <a class="opera-rsc-action dropdown-item">Delete</a>
                 </div>
             </div>
             <h6 class="m-0 font-weight-bold">` + resource.properties.resourceName + `</h6>
@@ -91,16 +107,16 @@ function showDeployments() {
                             <table class="table-sm table-hover table-bordered" width="100%" cellspacing="0">
                                 <tbody class="opera-rsc-props">
                                 	<tr class="prop-status">
-                                        <th>상태</th>
+                                        <th>Status</th>
                                         <td>
                                             <table class="table-sm table-bordered" width="100%" cellspacing="0">
                                                 <tbody>
                                                     <tr>
-                                                        <th>동기화 상태</th>
+                                                        <th>Sync Status</th>
                                                         <td class="prop-sync">SUCCESS</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>전원 상태</th>
+                                                        <th>Power Status</th>
                                                         <td class="prop-power">ON</td>
                                                     </tr>
                                                 </tbody>
@@ -108,24 +124,24 @@ function showDeployments() {
                                         </td>
                                     </tr>
                                     <tr class="prop-hostname">
-                                        <th>호스트 이름</th>
+                                        <th>Host Name</th>
                                         <td class="prop-val"></td>
                                     </tr>
                                     <tr class="prop-os">
-                                        <th>운영체제</th>
+                                        <th>OS Type</th>
                                         <td class="prop-val"></td>
                                     </tr>
                                     <tr>
-                                        <th>컴퓨팅 설정</th>
+                                        <th>Compute</th>
                                         <td>
                                             <table class="table-sm table-bordered" width="100%" cellspacing="0">
                                                 <tbody class="prop-val">
                                                     <tr class="prop-region">
-                                                        <th>컴퓨팅 지역</th>
+                                                        <th>Location</th>
                                                         <td class="prop-val"></td>
                                                     </tr>
                                                     <tr class="prop-zone">
-                                                        <th>컴퓨팅 영역</th>
+                                                        <th>Availability Zone</th>
                                                         <td class="prop-val"></td>
                                                     </tr>
                                                     <tr class="prop-cpu">
@@ -133,7 +149,7 @@ function showDeployments() {
                                                         <td><span class="prop-val"></span><small> Core</small></td>
                                                     </tr>
                                                     <tr class="prop-mem">
-                                                        <th>메모리</th>
+                                                        <th>Memory</th>
                                                         <td><span class="prop-val"></span><small> MB</small></td>
                                                     </tr>
                                                 </tbody>
@@ -141,22 +157,22 @@ function showDeployments() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>네트워크 설정</th>
+                                        <th>Network</th>
                                         <td>
                                             <table class="table-sm table-bordered mb-1" width="100%" cellspacing="0">
                                                 <tr class="prop-addr">
-                                                    <th>대표 IP</th>
+                                                    <th>Expose IP</th>
                                                     <td class="prop-val"></td>
                                                 </tr>
                                             </table>
                                             <table class="prop-net table-sm table-bordered" width="100%" cellspacing="0">
                                                 <thead style="text-align:center;">
                                                     <tr>
-                                                        <th>네트워크 이름</th>
-                                                        <th>IP 주소</th>
-                                                        <th>GW 주소</th>
-                                                        <th>네트워크 마스크</th>
-                                                        <th>MAC 주소</th>
+                                                        <th>Network Name</th>
+                                                        <th>IP Address</th>
+                                                        <th>GW Address</th>
+                                                        <th>Network Mask</th>
+                                                        <th>MAC Address</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="prop-val" style="text-align:center;">
@@ -165,7 +181,7 @@ function showDeployments() {
                                         </td>
                                     </tr>
                                     <tr class="prop-storage">
-                                        <th>스토리지 설정</th>
+                                        <th>Storage</th>
                                         <td>
                                             <table class="table-sm table-bordered" width="100%" cellspacing="0">
                                                 <tbody class="prop-val">
@@ -174,7 +190,7 @@ function showDeployments() {
                                         </td>
                                     </tr>
                                     <tr class="prop-tag">
-                                        <th>태그 설정</th>
+                                        <th>Tags</th>
                                         <td>
                                             <table class="table-sm table-bordered" width="100%" cellspacing="0">
                                                 <tbody class="prop-val">
@@ -183,7 +199,7 @@ function showDeployments() {
                                         </td>
                                     </tr>
                                     <tr class="prop-cloud-config">
-                                        <th>Cloud-Init 설정</th>
+                                        <th>Cloud-Init</th>
                                         <td>
                                             <textarea class="prop-val" style="width:100%;" readonly></textarea>
                                         </td>
@@ -201,7 +217,7 @@ function showDeployments() {
 <div class="opera-metric-cpu">
     <div class="card shadow">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">CPU 사용율</h6>
+            <h6 class="m-0 font-weight-bold">CPU Utilization (%)</h6>
         </div>
         <div class="card-body">
             <div class="chart-area">
@@ -213,7 +229,7 @@ function showDeployments() {
 <div class="opera-metric-mem">
     <div class="card shadow">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">메모리 사용율</h6>
+            <h6 class="m-0 font-weight-bold">MEM Utilization (%)</h6>
         </div>
         <div class="card-body">
             <div class="chart-area">
@@ -225,7 +241,7 @@ function showDeployments() {
 <div class="opera-metric-net">
     <div class="card shadow">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">네트워크 처리량</h6>
+            <h6 class="m-0 font-weight-bold">NET Throughput (KBps)</h6>
         </div>
         <div class="card-body">
             <div class="chart-area">
@@ -237,7 +253,7 @@ function showDeployments() {
 <div class="opera-metric-iops">
     <div class="card shadow">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">IOPS 처리량</h6>
+            <h6 class="m-0 font-weight-bold">IOPS Counts</h6>
         </div>
         <div class="card-body">
             <div class="chart-area">

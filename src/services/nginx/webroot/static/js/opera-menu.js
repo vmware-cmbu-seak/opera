@@ -1,5 +1,5 @@
 // Top Menu Control ////////////////////////////////////////////////////////////////////////////////////////////
-function showUserInfo (user) {
+function showUserInfo(user) {
 	showWaitPanel();
 	user.detail((data) => {
 		if (data.displayName !== undefined && data.displayName != null && data.displayName != "") $("#opera-user").html(data.displayName);
@@ -9,7 +9,7 @@ function showUserInfo (user) {
 	hideWaitPanel();
 };
 
-function showRegions (region) {
+function showRegions(region) {
 	showWaitPanel();
 	Region = region;
 	let html = "";
@@ -25,7 +25,7 @@ function showRegions (region) {
 	region.inactive.forEach((endpoint) => {
 		html += '<a class="dropdown-item"><i class="fas fa-ban fa-sm fa-fw mr-2"></i>' + endpoint + '</a>';
 	});
-	$("#opera-regions").html('<h6 class="dropdown-header">클라우드 지역 선택</h6>' + html);
+	$("#opera-regions").html('<h6 class="dropdown-header" style="text-align: center;">Select Cloud Endpoint</h6>' + html);
 	Project = region.getProjectClient(showProjects);
 	
 	$(".opera-region").click((event) => {
@@ -34,7 +34,7 @@ function showRegions (region) {
 	hideWaitPanel();
 };
 
-function showProjects (project) {
+function showProjects(project) {
 	showWaitPanel();
 	Project = project;
 	let html = "";
@@ -46,18 +46,51 @@ function showProjects (project) {
 			html += '<a class="opera-project dropdown-item" oid="' + data.id + '"><i class="far fa-bookmark fa-sm fa-fw mr-2"></i>' + data.name + '</a>'
 		}
 	});
-	$("#opera-projects").html('<h6 class="dropdown-header">프로젝트 선택</h6>' + html);
+	$("#opera-projects").html('<h6 class="dropdown-header" style="text-align: center;">Select Project</h6>' + html);
 	showWaitPanel();
-	Deployment = project.getDeploymentClient((data) => { hideWaitPanel(); });
+	Deployment = project.getDeploymentClient((deployments) => { hideWaitPanel(); });
 	showWaitPanel();
-	Resource = project.getResourceClient((data) => { hideWaitPanel(); });
-	showPage($("#opera-init-page"));
+	Resource = project.getResourceClient((resources) => { hideWaitPanel(); });
+	showWaitPanel();
+	Catalog = project.getCatalogClient((catalogs) => {
+		let categoryIndices = [];
+		Object.keys(catalogs.category).forEach((index) => {
+			categoryIndices.push(parseInt(index));
+		});
+		categoryIndices = categoryIndices.sort((x, y) => { return x - y; });
+		let html = "";
+		categoryIndices.forEach((index) => {
+			let category = catalogs.category[index];
+			html += `
+<li class="nav-item">
+<a class="nav-link collapsed" data-toggle="collapse" data-target="#opera-category-` + index + `"><i class="fas fa-fw fa-bullseye"></i><span>` + category.name + `</span></a>
+<div id="opera-category-` + index + `" class="collapse" data-parent="#opera-left-menu"><div class="collapse-inner rounded py-2 animated--grow-in">
+`;
+			category.catalogs.forEach((catalogId) => {
+				catalog = catalogs.catalog[catalogId];
+				html += `<a class="opera-catalog collapse-item" oid="` + catalog.id + `">` + catalog.name + `</a>`;
+			});
+			html += `</div></div></li>`;
+		});
+		html += `<hr class="sidebar-divider">`;
+		$("#opera-catalog-category").html(html);
+		
+		$(".opera-catalog").click((event) => {
+			Catalog.setCurrent($(event.target).attr("oid"), showCatalog);
+		});
+		hideWaitPanel();
+	});
+	showPage($("#opera-dashboard-page"));
 	
 	$(".opera-project").click((event) => {
 		project.setCurrent($(event.target).attr("oid"), showProjects);
 	});
 	hideWaitPanel();
-}
+};
+
+function showCatalog(catalog) {
+	showCatalogPage();
+};
 
 // Left Menu Control ///////////////////////////////////////////////////////////////////////////////////////////
 function showPage(page) {

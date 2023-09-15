@@ -13,9 +13,12 @@
 #===============================================================================
 # Import
 #===============================================================================
+import json
 from fastapi import Request, HTTPException
+from fastapi.encoders import jsonable_encoder
 from typing import Optional
 from common import TaskOperator, AsyncRest
+from models import Catalogs, ConsoleSession
 from interfaces import MgmtInterface, UserInterface
 from drivers import Table, Redis, Guacamole
 
@@ -23,7 +26,9 @@ from drivers import Table, Redis, Guacamole
 # Variables
 #===============================================================================
 PAGING_TOP = 0
-with open('services/nginx/webroot/static/html/console.html', 'r') as fd: CONSOLE_PAGE = fd.read()
+with open('services/nginx/webroot/static/html/console.html', 'r') as fd:
+    CONSOLE_HTML = fd.read()
+
 
 #===============================================================================
 # Implement
@@ -32,6 +37,8 @@ class App(UserInterface):
     
     def __init__(self, config):
         UserInterface.__init__(self, config)
+        self.catalogCategoryPriority = [category.strip() for category in config['cmp']['catalog_category_priority'].split(',')]
+        LOG.INFO(self.catalogCategoryPriority)
     
     async def startup(self):
         await UserInterface.startup(self)
@@ -41,16 +48,19 @@ class App(UserInterface):
             'gui': (Guacamole, '/gui')
         })
     
+    #===========================================================================
+    # Deployments
+    #===========================================================================
     async def getDeploymentList(self, request:Request, projectId:Optional[str]=None):
         _, endpoint, token = await self.checkApi(request)
         skip, top = 0, PAGING_TOP
-        url = f'https://{endpoint}/deployment/api/deployments?expand=resources,catalog&$skip={skip}&$top={top}'
+        url = f'$skip={skip}&$top={top}'
         if projectId: url = f'{url}&projects={projectId}'
         headers = {
             'Authorization': f'Bearer {token}',
             'Accept': 'application/json'
         }
-        async with AsyncRest() as s:
+        async with AsyncRest(f'https://{endpoint}/deployment/api/deployments?expand=resources,catalog&') as s:
             try: firstPage = await s.get(url, headers=headers)
             except Exception as e: raise HTTPException(status_code=500, detail=str(e))
             count, top, result = (firstPage['totalPages'] - 1), firstPage['size'], firstPage['content']
@@ -58,23 +68,26 @@ class App(UserInterface):
                 with TaskOperator() as to:
                     for _ in range(count):
                         skip += top
-                        url = f'https://{endpoint}/deployment/api/deployments?expand=resources,catalog&$skip={skip}&$top={top}'
+                        url = f'$skip={skip}&$top={top}'
                         if projectId: url = f'{url}&projects={projectId}'
                         to.do(s.get(url, headers=headers))
                     pages = await to.wait()
                 for page in pages: result += page['content']
             return result
     
+    #===========================================================================
+    # Resources
+    #===========================================================================
     async def getResourceList(self, request:Request, projectId:Optional[str]=None):
         _, endpoint, token = await self.checkApi(request)
         skip, top = 0, PAGING_TOP
-        url = f'https://{endpoint}/deployment/api/resources?$skip={skip}&$top={top}'
+        url = f'$skip={skip}&$top={top}'
         if projectId: url = f'{url}&projects={projectId}'
         headers = {
             'Authorization': f'Bearer {token}',
             'Accept': 'application/json'
         }
-        async with AsyncRest() as s:
+        async with AsyncRest(f'https://{endpoint}/deployment/api/resources?') as s:
             try: firstPage = await s.get(url, headers=headers)
             except Exception as e: raise HTTPException(status_code=500, detail=str(e))
             count, top, result = (firstPage['totalPages'] - 1), firstPage['size'], firstPage['content']
@@ -82,14 +95,96 @@ class App(UserInterface):
                 with TaskOperator() as to:
                     for _ in range(count):
                         skip += top
-                        url = f'https://{endpoint}/deployment/api/resources?$skip={skip}&$top={top}'
+                        url = f'$skip={skip}&$top={top}'
                         if projectId: url = f'{url}&projects={projectId}'
                         to.do(s.get(url, headers=headers))
                     pages = await to.wait()
                 for page in pages: result += page['content']
             return result
     
-    async def getConsole(self, request:Request, resourceId:str):
+    #===========================================================================
+    # Catalogs
+    #===========================================================================
+    async def getCatalogCategory(self, request:Request, projectId:Optional[str]=None):
+        _, endpoint, token = await self.checkApi(request)
+        skip, top = 0, PAGING_TOP
+        url = f'?$skip={skip}&$top={top}'
+        if projectId: url = f'{url}&projects={projectId}'
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Accept': 'application/json'
+        }
+        async with AsyncRest(f'https://{endpoint}/catalog/api/items') as s:
+            try: firstPage = await s.get(url, headers=headers)
+            except Exception as e: raise HTTPException(status_code=500, detail=str(e))
+            count, top, items = (firstPage['totalPages'] - 1), firstPage['size'], firstPage['content']
+            if count:
+                with TaskOperator() as to:
+                    for _ in range(count):
+                        skip += top
+                        url = f'?$skip={skip}&$top={top}'
+                        if projectId: url = f'{url}&projects={projectId}'
+                        to.do(s.get(url, headers=headers))
+                    pages = await to.wait()
+                for page in pages: items += page['content']
+            catalogs = []
+            categoryNames = []
+            categories = {}
+            index = 100
+            for catalog in items:
+                catalog = await s.get(f"/{catalog['id']}", headers=headers)
+                catalogs.append(catalog)
+                properties = catalog['schema']['properties']
+                if '_serviceCategory_' in properties and 'default' in properties['_serviceCategory_'] and properties['_serviceCategory_']['default']:
+                    category = properties['_serviceCategory_']['default']
+                    if category in self.catalogCategoryPriority:
+                        categoryIndex = str(self.catalogCategoryPriority.index(category))
+                        if categoryIndex not in categories:
+                            categories[categoryIndex] = {
+                                'name': category,
+                                'catalogs': []
+                            }
+                        categories[categoryIndex]['catalogs'].append(catalog['id'])
+                    else:
+                        if category not in categoryNames:
+                            categoryNames.append(category)
+                            categories[str(index)] = {
+                                'name': category,
+                                'catalogs': []
+                            }
+                            index += 1
+                        
+                        categories[str(categoryNames.index(category) + 100)]['catalogs'].append(catalog['id'])
+                else:
+                    if '1000' not in categories:
+                        categories['1000'] = {
+                            'name': 'ETC',
+                            'catalogs': []
+                        }
+                    categories['1000']['catalogs'].append(catalog['id'])
+        
+        return Catalogs(
+            catalogs=catalogs,
+            categories=categories
+        )
+    
+    async def deployCatalog(self, request:Request, catalogId):
+        session, endpoint, token = await self.checkApi(request)
+        requestPayload = await request.json()
+        LOG.INFO(f'Catalog Request by {session.userId}\n{json.dumps(requestPayload, indent=2)}')
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Accept': 'application/json'
+        }
+        async with AsyncRest(f'https://{endpoint}') as s:
+            try: results = await s.post(f'/catalog/api/items/{catalogId}/request', json=requestPayload, headers=headers)
+            except Exception as e: raise HTTPException(status_code=500, detail=str(e))
+            return results[0]
+    
+    #===========================================================================
+    # Console
+    #===========================================================================
+    async def getConsoleSession(self, request:Request, resourceId:str) -> ConsoleSession:
         session, endpoint, token = await self.checkApi(request)
     
         async with AsyncRest() as s:
@@ -160,6 +255,10 @@ class App(UserInterface):
                     except Exception as e: raise (f'could not open console : {str(e)}')
         await self.guiTokens.set(userId, token.encode('utf-8'), self.timeoutToken)
         
-        html = CONSOLE_PAGE.replace('TOKEN_HERE', token).replace('CONNECTION_ID_HERE', str(connectionId))
-        LOG.INFO(html)
-        return html
+        return ConsoleSession(
+            connectionId=connectionId,
+            token=token
+        )
+    
+    async def getConsole(self, request:Request, resourceId:str):
+        return CONSOLE_HTML.format(resourceId=resourceId)

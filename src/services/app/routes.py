@@ -17,6 +17,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from typing import Optional
 from common import getConfig, Logger
+from models import Catalogs, ConsoleSession
 from views import App
 
 #===============================================================================
@@ -50,6 +51,21 @@ async def getDeploymentList(request:Request, projectId:Optional[str]=None) -> li
 async def getResourceList(request:Request, projectId:Optional[str]=None) -> list:
     return await view.getResourceList(request, projectId)
 
+@app.get('/catalogs')
+async def getCatalogCategory(request:Request, projectId:Optional[str]=None) -> Catalogs:
+    return await view.getCatalogCategory(request, projectId)
+
+@app.post('/catalogs/{catalogId}')
+async def deployCatalog(request:Request, catalogId) -> dict:
+    return await view.deployCatalog(request, catalogId)
+
+
+@app.get('/console/{resourceId}')
+async def getConsoleSession(request:Request, resourceId:str) -> ConsoleSession:
+    return await view.getConsoleSession(request, resourceId)
+
+
 @app.get('/console', response_class=HTMLResponse)
-async def getConsolePage(request:Request, resourceId:str) -> HTMLResponse:
+async def getConsole(request:Request, resourceId:str) -> HTMLResponse:
     return await view.getConsole(request, resourceId)
+

@@ -329,6 +329,26 @@ hr {
 	color: #acbac3;
 }
 
+#opera-wait-bar {
+	z-index: 1100;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background: #17242b;
+	color: #acbac3;
+}
+
+#opera-progress-bar-container {
+	width: 50%;
+	height: 2em;
+}
+
+#opera-progress-bar-data {
+	
+}
+
 .opera-remote-console {
 	width: 25%;
 	margin: 0;
@@ -405,9 +425,99 @@ hr {
 	text-align: center;
 }
 
-#opera-gui-console {
+#opera-console {
+	width: 1024px;
+	height: 768px;
+}
+
+#opera-console-wait-spin {
+	z-index: 1100;
+	position: absolute;
+	top: 0px;
+	left: 0px;
 	width: 100%;
 	height: 100%;
-	margin: 0;
-	padding: 0;
+	background: #121c21;
+	color: #acbac3;
+}
+
+.opera-catalog-form-deployment-name {
+	background-color: #121c21;
+}
+
+.opera-catalog-form-deployment-name th {
+	width: 10em;
+}
+
+.opera-catalog-form-deployment-name td {
+	width: calc(100% - 10em);
+}
+
+.opera-catalog-form-deployment-name td input {
+	width: 100%;
+	border: 0;
+	background-color: #121c21;
+	color: #acbac3;
+}
+
+.opera-catalog-form-field {
+	background-color: #121c21;
+}
+
+.opera-catalog-form-field th {
+	width: 20%;
+	font-size: 80%;
+	font-weight: 400;
+}
+
+.opera-catalog-form-field td {
+	width: 80%;
+	font-size: 80%;
+	font-weight: 400;
+}
+
+.opera-catalog-form .opera-catalog-item {
+	width: 100%;
+	border: 0;
+	background-color: #121c21;
+	color: #acbac3;
+}
+
+.opera-catalog-form input[type=checkbox] {
+	width: auto !important;
+}
+
+.opera-catalog-form input[type=button] {
+	display: inline-block;
+	width: auto !important;
+	padding: 0.375rem 0.75rem;
+	border: 1px solid #384359;
+	border-radius: 0.35rem;
+	color: #acbac3;
+	background-color: #121c21;
+	text-align: center;
+	font-weight: 400;
+	cursor: pointer;
+}
+
+.opera-catalog-form input[type=submit] {
+	display: inline-block;
+	width: auto !important;
+	padding: 0.375rem 0.75rem;
+	border: 1px solid #384359;
+	border-radius: 0.35rem;
+	color: #acbac3;
+	background-color: #121c21;
+	text-align: center;
+	font-weight: 400;
+	cursor: pointer;
+}
+
+.opera-catalog-form input[type=submit]:hover {
+	border-color: #4aaed9;
+ 	color: #ffffff;
+}
+
+.opera-catalog-form input[type=submit]:hover {
+ 	box-shadow: none;
 }

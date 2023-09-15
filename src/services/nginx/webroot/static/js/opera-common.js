@@ -8,6 +8,7 @@ var Region;
 var Project;
 var Deployment;
 var Resource;
+var Catalog;
 
 // Utils
 function numberWithCommas(x) {
@@ -42,20 +43,27 @@ function timeFormat(tstamp) {
 
 var waitCount = 0;
 var hideDuration = 300;
+var waitProgress = 0;
 
 function showWaitPanel() {
 	waitCount += 1;
+	//waitProgress = parseInt(waitProgress + ((100 - waitProgress) / 2));
 	$("#opera-wait").show();
+	//$("#opera-progress-bar-data").attr("style", "width: " + waitProgress + "%;");
 };
 
 function hideWaitPanel() {
 	if (waitCount > 0) waitCount -= 1;
-	if (!waitCount) $("#opera-wait").hide(hideDuration);
+	if (!waitCount) $("#opera-wait").hide(hideDuration, () => {
+		//waitProgress = 0;
+		//$("#opera-progress-bar-data").attr("style", "width: 0%;");
+	});
 };
 
 function hideWaitPanelWhenDev() {
 	waitCount = 0;
 	$("#opera-wait").hide();
+	waitProgress = 0;
 }
 
 function drawMetricChart(dom, title, labels, data) {
@@ -123,6 +131,6 @@ function drawMetricChart(dom, title, labels, data) {
 function openConsole(dom) {
 	let resourceId = dom.parent().parent().parent().parent().attr("oid");
 	if (resourceId) {
-		window.open("/app/console?resourceId=" + resourceId, "_blank", "width=800,height=600,resizable=yes,titlebar=no,location=no,menubar=no,scrollbars=no,status=no,toobar=no");
+		window.open("/app/console?resourceId=" + resourceId, "_blank", "width=1024,height=768,resizable=yes,titlebar=no,location=no,menubar=no,scrollbars=no,status=no,toobar=no");
 	}
 }

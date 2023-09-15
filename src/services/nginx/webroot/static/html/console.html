@@ -38,54 +38,20 @@
 </head>
 <body id="main">
 
-    <div id="opera-gui-console"></div>
+    <div id="opera-console"></div>
+    
+    <!-- Opera Wait Panel -->
+    <div id="opera-console-wait">
+        <div id="opera-console-wait-spin" class="d-flex align-middle align-items-center justify-content-center"><i class="fas fa-fw fa-spinner fa-spin fa-10x"></i></div>
+    </div>
     
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/static/vendor/jquery-cookie/jquery-cookie.js"></script>
     <script src="/static/vendor/guacamole/guacamole-common-js.min.js"></script>
-
-    <script>
-    (function($) {
-        
-        var token = "TOKEN_HERE";
-        var connectionId = "CONNECTION_ID_HERE";
-        var display = document.getElementById('opera-gui-console');
-        var tunnel = new Guacamole.WebSocketTunnel('/gui/websocket-tunnel');
-        var gui = new Guacamole.Client(tunnel);
-        
-        display.appendChild(gui.getDisplay().getElement());
-        
-        var data = "token=" + token;
-        data += "&GUAC_DATA_SOURCE=postgresql";
-        data += "&GUAC_ID=" + connectionId;
-        data += "&GUAC_TYPE=c";
-        data += "&GUAC_WIDTH=1024";
-        data += "&GUAC_HEIGHT=768";
-        data += "&GUAC_DPI=96";
-        data += "&GUAC_TIMEZONE=Asia%2FSeoul";
-        data += "&GUAC_AUDIO=audio%2FL8";
-        data += "&GUAC_AUDIO=audio%2FL16";
-        data += "&GUAC_IMAGE=image%2Fjpeg";
-        data += "&GUAC_IMAGE=image%2Fpng";
-        data += "&GUAC_IMAGE=image%2Fwebp";
-        
-        gui.connect(data);
-        gui.onerror = (error) => console.log(error.message);
-        window.onunload = () => gui.disconnect();
-        window.onresize = (event) => {
-            gui.sendSize(window.innerWidth, window.innerHeight);
-        };
-        
-        mouse = new Guacamole.Mouse(gui.getDisplay().getElement());
-        mouse.onmousemove = (mouseState) => { gui.sendMouseState(mouseState); }
-        
-        keyboard = new Guacamole.Keyboard(document);
-        keyboard.onkeydown = (keysym) => gui.sendKeyEvent(1, keysym);
-        keyboard.onkeyup = (keysym) => gui.sendKeyEvent(0, keysym);
-    
-    })(jQuery);
-    </script>
+    <script src="/static/js/opera.js"></script>
+    <script>var resourceId="{resourceId}";</script>
+    <script src="/static/js/opera-console.js"></script>
 
 </body>
 </html>
