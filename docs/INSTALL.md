@@ -40,7 +40,7 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 > 설정 메�
 
 ### 6) opera.conf 설정
 
-**opera/src/opera.conf** 파일을 다음과 같이 수정합니다.
+<a href="https://github.com/vmware-cmbu-seak/opera/blob/main/src/opera.conf"><strong>src/opera.conf</strong></a> 파일을 다음과 같이 수정합니다.
 
  - cmp > hostname : 포탈의 FQDN 주소를 입력합니다
  - vidm > hostname : VIDM의 FQDN 주소를 입력합니다
