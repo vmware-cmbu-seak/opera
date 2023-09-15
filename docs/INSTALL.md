@@ -47,8 +47,8 @@ VIDM에 관리자 계정으로 로그인을 한 뒤, 카탈로그 > 설정 메�
  - vidm > client_key : VIDM에서 생성된 공유 암호를 입력합니다
 
 <p align="center">
-<img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-1.png?raw=true" width="50%">
-<img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-2.png?raw=true" width="50%">
+<span><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-1.png?raw=true" width="50%"></span>
+<span><img src="https://github.com/vmware-cmbu-seak/opera/blob/main/docs/images/opera-init-conf-2.png?raw=true" width="50%"></span>
 </p>
 
 ### 7) Docker 환경 설정
