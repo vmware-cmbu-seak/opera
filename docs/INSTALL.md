@@ -108,7 +108,7 @@ $ docker network create opera
 
 ## 2. 컨테이너 빌드
 
-모든 과정은 **opera/src** 디렉토리에서 수행합니다.
+모든 과정은 **src** 디렉토리에서 수행합니다.
 
 ### 1) Docker Hub 컨테이너 다운로드
 
@@ -154,7 +154,7 @@ docker build --no-cache -t opera/app:latest -f ./services/app/Dockerfile .
 
 ## 3. 컨테이너 실행
 
-모든 과정은 **opera/src** 디렉토리에서 수행합니다.
+모든 과정은 **src** 디렉토리에서 수행합니다.
 
 ### 1) 개발환경에서 실행
 
